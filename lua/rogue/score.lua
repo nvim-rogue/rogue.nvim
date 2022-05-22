@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 local score_file = "rogue_vim.scores"
 
@@ -6,7 +7,7 @@ local xxx_f = 0
 local xxx_s = 0
 
 local function center_margin(buf)
-  return g.int_div((g.DCOLS - g.strwidth(buf:gsub("%(%w%(", ""))), 2)
+  return util.int_div((g.DCOLS - util.strwidth(buf:gsub("%(%w%(", ""))), 2)
 end
 
 local function center(row, buf)
@@ -15,7 +16,9 @@ end
 
 local function layer(lower, lcol, upper, ucol)
   local s1 = lower:sub(1, ucol - lcol)
-  local s2 = lower:sub(ucol - lcol + 1 + g.strwidth(upper:gsub("%(%w%(", "")))
+  local s2 = lower:sub(
+    ucol - lcol + 1 + util.strwidth(upper:gsub("%(%w%(", ""))
+  )
   return s1 .. upper .. s2
 end
 
@@ -47,20 +50,20 @@ end
 
 function g.killed_by(monster, other)
   local xpos = {
-    g.int_div(g.DCOLS, 2) - 5,
-    g.int_div(g.DCOLS, 2) - 6,
-    g.int_div(g.DCOLS, 2) - 7,
-    g.int_div(g.DCOLS, 2) - 8,
-    g.int_div(g.DCOLS, 2) - 9,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 10,
-    g.int_div(g.DCOLS, 2) - 11,
-    g.int_div(g.DCOLS, 2) - 19,
+    util.int_div(g.DCOLS, 2) - 5,
+    util.int_div(g.DCOLS, 2) - 6,
+    util.int_div(g.DCOLS, 2) - 7,
+    util.int_div(g.DCOLS, 2) - 8,
+    util.int_div(g.DCOLS, 2) - 9,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 10,
+    util.int_div(g.DCOLS, 2) - 11,
+    util.int_div(g.DCOLS, 2) - 19,
   }
   local str = {
     "----------",
@@ -84,7 +87,7 @@ function g.killed_by(monster, other)
   os2 = { [0] = "", g.mesg[172], g.mesg[173], g.mesg[174], g.mesg[175] }
 
   if other ~= g.QUIT then
-    g.rogue.gold = g.int_div((g.rogue.gold * 9), 10)
+    g.rogue.gold = util.int_div((g.rogue.gold * 9), 10)
   end
   local buf, buf2
   if other ~= 0 then
@@ -334,7 +337,7 @@ local function score_line(monster, other)
       buf = buf .. g.mesg[189]
     end
   end
-  buf = buf .. string.rep(" ", g.DCOLS - 4 - g.strwidth(buf))
+  buf = buf .. string.rep(" ", g.DCOLS - 4 - util.strwidth(buf))
   return buf
 end
 
@@ -349,7 +352,7 @@ function g.put_scores(monster, other)
     vim.cmd 'let &encoding = "utf-8"'
     buf = g.iconv_from_utf8(buf)
     vim.cmd "let &encoding = s:save_encoding"
-    scores = assert(g.loadstring("return " .. buf), g.mesg[199])()
+    scores = assert(util.loadstring("return " .. buf), g.mesg[199])()
     fp:close()
   end
 
@@ -381,7 +384,7 @@ function g.put_scores(monster, other)
     if #scores > MAX_RANK then
       table.remove(scores)
     end
-    local buf = g.dump(scores)
+    local buf = util.dump(scores)
     buf = g.iconv_to_utf8(buf)
     g.xxx(true)
     buf = g.xxxx(buf)
@@ -409,7 +412,7 @@ function g.xxxx(buf)
   local ret = ""
   for i = 1, #buf do
     local c = g.xxx(false)
-    local x = g.bxor(buf:byte(i), c)
+    local x = util.bxor(buf:byte(i), c)
     x = x % 0x100
     ret = ret .. string.char(x)
   end

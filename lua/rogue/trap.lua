@@ -138,7 +138,7 @@ function g.add_traps()
               or g.dungeon[row][col][g.STAIRS]
               or g.dungeon[row][col][g.TRAP]
               or g.dungeon[row][col][g.TUNNEL]
-            ) or g.table_is_empty(g.dungeon[row][col])
+            ) or vim.tbl_isempty(g.dungeon[row][col])
           ) and (tries < 15)
         )
       if tries >= 15 then

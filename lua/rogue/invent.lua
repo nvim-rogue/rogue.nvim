@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.is_wood = {}
 
@@ -112,7 +113,7 @@ function g.inventory(pack, mask)
   if g.JAPAN then
     msg = " " .. msg
   end
-  local len = g.strwidth(msg)
+  local len = util.strwidth(msg)
 
   local obj = pack.next_object
   if not obj then
@@ -136,7 +137,7 @@ function g.inventory(pack, mask)
           .. (Protected(obj) and "}" or ")")
           .. " "
           .. g.get_desc(obj, false)
-        local n = g.strwidth(g.descs[i])
+        local n = util.strwidth(g.descs[i])
         if n > maxlen then
           maxlen = n
         end
@@ -183,10 +184,10 @@ function g.make_scroll_titles()
   for i = 0, g.SCROLS - 1 do
     local sylls = g.get_rand(2, 5)
     g.id_scrolls[i].title = g.mesg[535]
-    local len = g.strwidth(g.id_scrolls[i].title)
+    local len = util.strwidth(g.id_scrolls[i].title)
     for j = 0, sylls - 1 do
       local s = g.get_rand(1, g.MAXSYLLABLES - 1)
-      local n = g.strwidth(syllables[s])
+      local n = util.strwidth(syllables[s])
       if len + n - 1 >= g.MAX_TITLE_LENGTH - 2 then
         break
       end
@@ -479,7 +480,7 @@ function g.discovered()
   if g.JAPAN then
     msg = " " .. msg
   end
-  local len = g.strwidth(msg)
+  local len = util.strwidth(msg)
 
   g.message(g.mesg[45])
   local ch
@@ -573,7 +574,7 @@ function g.discovered()
     end
   end
 
-  if g.table_is_empty(found) then
+  if vim.tbl_isempty(found) then
     g.message(g.mesg[46])
     return
   end
@@ -599,7 +600,7 @@ function g.discovered()
           g.descs[i] = " " .. dp.name .. dp.real
         end
       end
-      local n = g.strwidth(g.descs[i])
+      local n = util.strwidth(g.descs[i])
       if n > maxlen then
         maxlen = n
       end

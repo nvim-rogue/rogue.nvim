@@ -1,30 +1,26 @@
-local g = Rogue -- alias
+local g = Rogue or {} -- alias
+local M = {}
 
-g.loadstring = nil
-if _VERSION >= "Lua 5.2" then
-  g.loadstring = load
-else
-  g.loadstring = loadstring
-end
+M.loadstring = _VERSION >= "Lua 5.2" and load or loadstring
 
-function g.get_vim_variable(var)
+---@param var string
+---@return unknown
+function M.get_vim_variable(var)
   if vim.fn.exists(var) ~= 0 then
     return vim.fn.eval(var)
   end
 end
 
-g.bxor = nil
-
 local bit_exists, bit = pcall(require, "bit")
 if bit_exists then
-  g.bxor = bit.bxor
+  M.bxor = bit.bxor
 elseif _VERSION >= "Lua 5.3" then
-  g.bxor = require("rogue.lua53").lua53_bxor
+  M.bxor = require("rogue.lua53").lua53_bxor
 elseif _VERSION >= "Lua 5.2" then
   ---@diagnostic disable-next-line: undefined-global
-  g.bxor = bit32.bxor
+  M.bxor = bit32.bxor
 else
-  g.bxor = function(x, y)
+  function M.bxor(x, y)
     local n = 0
     local ret = 0
 
@@ -34,15 +30,17 @@ else
       if bit_x ~= bit_y then
         ret = ret + 2 ^ n
       end
-      x = g.int_div(x, 2)
-      y = g.int_div(y, 2)
+      x = M.int_div(x, 2)
+      y = M.int_div(y, 2)
       n = n + 1
     until x == 0 and y == 0
     return ret
   end
 end
 
-function g.set_vim_variable(var, value)
+---@param var string
+---@param value unknown
+function M.set_vim_variable(var, value)
   if vim then
     if type(value) == "number" then
       vim.cmd("let " .. var .. " = " .. tostring(value))
@@ -108,27 +106,25 @@ local function dump(obj, indent_depth, dumped_table_list, hex_flag)
   return s
 end
 
-function g.dump(obj, hex_flag)
+---@param obj unknown
+---@param hex_flag boolean
+---@return string
+function M.dump(obj, hex_flag)
   return dump(obj, nil, nil, hex_flag)
 end
 
-function g.int_div(dividend, divisor)
+---@param dividend number
+---@param divisor number
+---@return integer
+function M.int_div(dividend, divisor)
   return math.floor(dividend / divisor)
 end
 
-function g.table_is_empty(tbl)
-  return next(tbl) == nil
-end
-
-function g.strwidth(s)
+function M.strwidth(s)
   return vim.fn.strwidth(s)
 end
 
-function g.getftime(fname)
-  return vim.fn.getftime(fname)
-end
-
-function g.split(str, sep)
+function M.split(str, sep)
   local ret = {}
   while true do
     local idx = str:find(sep, 1, true)
@@ -186,3 +182,5 @@ function g.iconv_to_utf8(str)
   end
   return str
 end
+
+return M

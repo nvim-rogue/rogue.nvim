@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require("rogue.util")
 
 g.COLOR = true
 
@@ -42,7 +43,7 @@ function g.dungeon_buffer_concat()
 end
 
 function g.dungeon_buffer_restore(str)
-  local t = g.split(str, ";")
+  local t = util.split(str, ";")
   for i, v in ipairs(t) do
     for j = 1, #v do
       dungeon_buffer[i - 1][j - 1] = string.char(v:byte(j))

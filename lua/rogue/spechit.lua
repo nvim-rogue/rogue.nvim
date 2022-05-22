@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.less_hp = 0
 local flame_name
@@ -14,10 +15,10 @@ local function freeze(monster)
     return
   end
   freeze_percent = freeze_percent
-    - (g.rogue.str_current + g.int_div(g.rogue.str_current, 2))
+    - (g.rogue.str_current + util.int_div(g.rogue.str_current, 2))
   freeze_percent = freeze_percent - ((g.rogue.exp + g.ring_exp) * 4)
   freeze_percent = freeze_percent - (g.get_armor_class(g.rogue.armor) * 5)
-  freeze_percent = freeze_percent - g.int_div(g.rogue.hp_max, 3)
+  freeze_percent = freeze_percent - util.int_div(g.rogue.hp_max, 3)
 
   if freeze_percent > 10 then
     monster.m_flags[g.FREEZING_ROGUE] = g.m_flags_desc[g.FREEZING_ROGUE]

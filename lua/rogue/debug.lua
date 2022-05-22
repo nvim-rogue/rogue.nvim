@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.DEBUG = true
 -- g.COVERAGE = true
@@ -117,10 +118,10 @@ local function p(obj_str, log_flag, level, hex_flag)
   local lval, i = get_local_or_upvalue(level + 1, obj_str)
   local output
   if i ~= -1 then
-    output = "local " .. obj_str .. " = " .. g.dump(lval, hex_flag)
+    output = "local " .. obj_str .. " = " .. util.dump(lval, hex_flag)
   else
-    local obj = assert(g.loadstring("return " .. obj_str))()
-    output = obj_str .. " = " .. g.dump(obj, hex_flag)
+    local obj = assert(util.loadstring("return " .. obj_str))()
+    output = obj_str .. " = " .. util.dump(obj, hex_flag)
   end
 
   for k, v in pairs(g.print_enum) do
@@ -195,7 +196,7 @@ function g.breakpoint(log_flag)
       local lval, i, is_local = get_local_or_upvalue(level, obj)
       if i ~= -1 then
         local val = input:sub(idx + 1)
-        local new_val = assert(g.loadstring("return " .. val))()
+        local new_val = assert(util.loadstring("return " .. val))()
         if is_local then
           debug.setlocal(level, i, new_val)
         else
@@ -203,7 +204,7 @@ function g.breakpoint(log_flag)
           debug.setupvalue(func, i, new_val)
         end
       else
-        assert(g.loadstring(input))()
+        assert(util.loadstring(input))()
       end
     else
       -- get value

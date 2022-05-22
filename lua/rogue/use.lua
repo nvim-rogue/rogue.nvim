@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.halluc = 0
 g.blind = 0
@@ -38,7 +39,7 @@ end
 local function potion_heal(extra)
   g.rogue.hp_current = g.rogue.hp_current + g.rogue.exp
 
-  local ratio = g.int_div(g.rogue.hp_current * 100, g.rogue.hp_max)
+  local ratio = util.int_div(g.rogue.hp_current * 100, g.rogue.hp_max)
 
   if ratio >= 100 then
     g.rogue.hp_max = g.rogue.hp_max + (extra and 2 or 1)
@@ -55,7 +56,10 @@ local function potion_heal(extra)
     if extra then
       ratio = ratio + ratio
     end
-    local add = g.int_div((ratio * (g.rogue.hp_max - g.rogue.hp_current)), 100)
+    local add = util.int_div(
+      (ratio * (g.rogue.hp_max - g.rogue.hp_current)),
+      100
+    )
     g.rogue.hp_current = g.rogue.hp_current + add
     if g.rogue.hp_current > g.rogue.hp_max then
       g.rogue.hp_current = g.rogue.hp_max
@@ -67,12 +71,12 @@ local function potion_heal(extra)
   if g.confused > 0 and extra then
     g.unconfuse()
   elseif g.confused > 0 then
-    g.confused = g.int_div(g.confused, 2) + 1
+    g.confused = util.int_div(g.confused, 2) + 1
   end
   if g.halluc > 0 and extra then
     g.unhallucinate()
   elseif g.halluc > 0 then
-    g.halluc = g.int_div(g.halluc, 2) + 1
+    g.halluc = util.int_div(g.halluc, 2) + 1
   end
 end
 
@@ -137,7 +141,7 @@ function g.eat()
     g.message(g.mesg[268])
     g.add_exp(2, true)
   end
-  g.rogue.moves_left = g.int_div(g.rogue.moves_left, 3)
+  g.rogue.moves_left = util.int_div(g.rogue.moves_left, 3)
   g.rogue.moves_left = g.rogue.moves_left + moves
   g.hunger_str = ""
   g.print_stats()

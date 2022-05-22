@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.level_monsters = {}
 g.mon_disappeared = false
@@ -694,7 +695,7 @@ function g.mv_monster(monster, row, col)
       and g.rand_percent(
         (
             (g.stealthy > 0)
-              and g.int_div(g.WAKE_PERCENT, (g.STEALTH_FACTOR + g.stealthy))
+              and util.int_div(g.WAKE_PERCENT, (g.STEALTH_FACTOR + g.stealthy))
             or g.WAKE_PERCENT
           )
       )
@@ -875,8 +876,8 @@ function g.mon_can_go(monster, row, col)
     return false
   end
   if
-    g.table_is_empty(g.dungeon[monster.row][col])
-    or g.table_is_empty(g.dungeon[row][monster.col])
+    vim.tbl_isempty(g.dungeon[monster.row][col])
+    or vim.tbl_isempty(g.dungeon[row][monster.col])
     or not g.is_passable(row, col)
     or g.dungeon[row][col][g.MONSTER]
   then
@@ -929,7 +930,7 @@ function g.wake_room(rn, entering, row, col)
   local wake_percent = (rn == g.party_room) and g.PARTY_WAKE_PERCENT
     or g.WAKE_PERCENT
   if g.stealthy > 0 then
-    wake_percent = g.int_div(wake_percent, (g.STEALTH_FACTOR + g.stealthy))
+    wake_percent = util.int_div(wake_percent, (g.STEALTH_FACTOR + g.stealthy))
   end
 
   local monster = g.level_monsters.next_object

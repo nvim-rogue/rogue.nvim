@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 local Door = {}
 function Door.new()
@@ -365,13 +366,13 @@ end
 local function get_oth_room(rn, row, col)
   local d = -1
   if row == g.rooms[rn].top_row then
-    d = g.int_div(g.UPWARD, 2)
+    d = util.int_div(g.UPWARD, 2)
   elseif row == g.rooms[rn].bottom_row then
-    d = g.int_div(g.DOWN, 2)
+    d = util.int_div(g.DOWN, 2)
   elseif col == g.rooms[rn].left_col then
-    d = g.int_div(g.LEFT, 2)
+    d = util.int_div(g.LEFT, 2)
   elseif col == g.rooms[rn].right_col then
-    d = g.int_div(g.RIGHT, 2)
+    d = util.int_div(g.RIGHT, 2)
   end
   if d ~= -1 and g.rooms[rn].doors[d].oth_room >= 0 then
     row = g.rooms[rn].doors[d].oth_row

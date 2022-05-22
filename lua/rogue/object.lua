@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.ObjBase = {}
 function g.ObjBase.new()
@@ -224,7 +225,7 @@ local function plant_gold(row, col, is_maze)
   obj.what_is = g.GOLD
   obj.quantity = g.get_rand((2 * g.cur_level), (16 * g.cur_level))
   if is_maze then
-    obj.quantity = obj.quantity + g.int_div(obj.quantity, 2)
+    obj.quantity = obj.quantity + util.int_div(obj.quantity, 2)
   end
   obj.desc = g.get_desc(obj)
   g.dungeon[row][col][g.OBJECT] = g.dungeon_desc[g.OBJECT]
@@ -541,7 +542,7 @@ end
 
 function g.gr_object()
   local obj = g.alloc_object()
-  if g.foods < g.int_div(g.cur_level, 3) then
+  if g.foods < util.int_div(g.cur_level, 3) then
     obj.what_is = g.FOOD
     g.foods = g.foods + 1
   else
@@ -654,7 +655,7 @@ local function list_object(obj, max)
   if g.JAPAN then
     msg = " " .. msg
   end
-  local len = g.strwidth(msg)
+  local len = util.strwidth(msg)
   local weapon_or_armor = false
   local id
   if obj.what_is == g.ARMOR then
@@ -693,7 +694,7 @@ local function list_object(obj, max)
         (weapon_or_armor and id[i].title or id[i].real)
       )
     end
-    local n = g.strwidth(g.descs[i])
+    local n = util.strwidth(g.descs[i])
     if n > maxlen then
       maxlen = n
     end

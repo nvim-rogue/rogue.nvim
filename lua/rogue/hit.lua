@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.hit_message = ""
 local fight_monster = nil
@@ -28,7 +29,7 @@ function g.mon_hit(monster, other, flame)
       - (((2 * g.rogue.exp) + (2 * g.ring_exp)) - g.r_rings)
   end
   if g.wizard then
-    hit_chance = g.int_div(hit_chance, 2)
+    hit_chance = util.int_div(hit_chance, 2)
   end
   if not fight_monster then
     g.interrupted = true
@@ -73,7 +74,7 @@ function g.mon_hit(monster, other, flame)
       minus = (g.AMULET_LEVEL * 2) - g.cur_level
     else
       minus = g.get_armor_class(g.rogue.armor) * 3
-      minus = g.int_div(minus * damage, 100)
+      minus = util.int_div(minus * damage, 100)
     end
     damage = damage - minus
   else
@@ -81,7 +82,7 @@ function g.mon_hit(monster, other, flame)
     monster.stationary_damage = monster.stationary_damage + 1
   end
   if g.wizard then
-    damage = g.int_div(damage, 3)
+    damage = util.int_div(damage, 3)
   end
   if damage > 0 then
     rogue_damage(damage, monster)
@@ -158,9 +159,9 @@ end
 
 function g.get_number(s)
   local ret = {}
-  local t = g.split(s, "/")
+  local t = util.split(s, "/")
   for i, v in ipairs(t) do
-    local t1 = g.split(v, "d")
+    local t1 = util.split(v, "d")
     local t2 = {}
     for j, x in ipairs(t1) do
       table.insert(t2, tonumber(x))
@@ -241,7 +242,7 @@ function g.fight(to_the_death)
   end
   local possible_damage
   if not fight_monster.m_flags[g.STATIONARY] then
-    possible_damage = g.int_div(
+    possible_damage = util.int_div(
       (g.get_damage(fight_monster.m_damage, false) * 2),
       3
     )
@@ -315,6 +316,7 @@ end
 
 function g.get_weapon_damage(weapon)
   local damage = get_w_damage(weapon) + damage_for_strength()
-  damage = damage + g.int_div((((g.rogue.exp + g.ring_exp) - g.r_rings) + 1), 2)
+  damage = damage
+    + util.int_div((((g.rogue.exp + g.ring_exp) - g.r_rings) + 1), 2)
   return damage
 end

@@ -11,7 +11,7 @@ local function get_zapped_monster(dir, row, col)
     if
       (row == orow and col == ocol)
       or (g.dungeon[row][col][g.HORWALL] or g.dungeon[row][col][g.VERTWALL])
-      or g.table_is_empty(g.dungeon[row][col])
+      or vim.tbl_isempty(g.dungeon[row][col])
     then
       return nil, row, col
     end
@@ -31,7 +31,7 @@ local function get_missiled_monster(dir, row, col)
     if
       (row == orow and col == ocol)
       or (g.dungeon[row][col][g.HORWALL] or g.dungeon[row][col][g.VERTWALL])
-      or g.table_is_empty(g.dungeon[row][col])
+      or vim.tbl_isempty(g.dungeon[row][col])
     then
       row, col = orow, ocol
       return nil, row, col

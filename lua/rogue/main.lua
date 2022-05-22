@@ -5,6 +5,7 @@ end
 
 Rogue = {}
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.version = "1.0.2"
 
@@ -76,7 +77,7 @@ end
 local function read_mesg()
   g.mesg = {}
 
-  local file_dir = g.get_vim_variable "s:FILE_DIR"
+  local file_dir = util.get_vim_variable "s:FILE_DIR"
   local mesg_fname = vim.g["rogue#message"]
   if type(mesg_fname) == "string" and mesg_fname ~= "" then
     mesg_fname = g.expand_fname(mesg_fname, file_dir)
@@ -113,8 +114,8 @@ local function read_mesg()
   end
 
   if vim then
-    g.save_encoding = g.get_vim_variable "s:save_encoding"
-    local needs_iconv = g.get_vim_variable "s:needs_iconv"
+    g.save_encoding = util.get_vim_variable "s:save_encoding"
+    local needs_iconv = util.get_vim_variable "s:needs_iconv"
     if needs_iconv ~= 0 then
       g.needs_iconv = true
       vim.cmd 'let &encoding = "utf-8"'
@@ -141,7 +142,7 @@ local function main()
   local first = true
   g.update_flag = true
 
-  local args = g.split(g.get_vim_variable "s:args", " ")
+  local args = util.split(util.get_vim_variable "s:args", " ")
   if g.init(args) then
     -- restored game
     first = false

@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.cur_level = 0
 g.max_level = 1
@@ -71,7 +72,7 @@ local function make_room(rn, r1, r2, r3)
       left_col = g.COL2 + 1
       right_col = g.DCOLS - 2
     end
-    local div_rn = g.int_div(rn, 3)
+    local div_rn = util.int_div(rn, 3)
     if div_rn == 0 then
       top_row = g.MIN_ROW
       bottom_row = g.ROW1 - 1
@@ -124,7 +125,7 @@ local function make_room(rn, r1, r2, r3)
 end
 
 local function same_row(room1, room2)
-  return g.int_div(room1, 3) == g.int_div(room2, 3)
+  return util.int_div(room1, 3) == util.int_div(room2, 3)
 end
 
 local function same_col(room1, room2)
@@ -155,8 +156,8 @@ local function put_door(rm, dir)
   if (g.cur_level > 2) and g.rand_percent(g.HIDE_PERCENT) then
     g.dungeon[row][col][g.HIDDEN] = g.dungeon_desc[g.HIDDEN]
   end
-  rm.doors[g.int_div(dir, 2)].door_row = row
-  rm.doors[g.int_div(dir, 2)].door_col = col
+  rm.doors[util.int_div(dir, 2)].door_row = row
+  rm.doors[util.int_div(dir, 2)].door_col = col
 
   return row, col
 end
@@ -300,12 +301,12 @@ local function connect_rooms(room1, room2)
     draw_simple_passage(row1, col1, row2, col2, dir)
   until not g.rand_percent(4)
 
-  local dp = g.rooms[room1].doors[g.int_div(dir, 2)]
+  local dp = g.rooms[room1].doors[util.int_div(dir, 2)]
   dp.oth_room = room2
   dp.oth_row = row2
   dp.oth_col = col2
 
-  dp = g.rooms[room2].doors[g.int_div(((dir + 4) % g.DIRS), 2)]
+  dp = g.rooms[room2].doors[util.int_div(((dir + 4) % g.DIRS), 2)]
   dp.oth_room = room1
   dp.oth_row = row1
   dp.oth_col = col1
@@ -404,7 +405,7 @@ end
 local function add_mazes()
   if g.cur_level > 1 then
     local start = g.get_rand(0, g.MAXROOMS - 1)
-    local maze_percent = g.int_div((g.cur_level * 5), 4)
+    local maze_percent = util.int_div((g.cur_level * 5), 4)
 
     if g.cur_level > 15 then
       maze_percent = maze_percent + g.cur_level
@@ -479,8 +480,8 @@ local function recursive_deadend(rn, offsets, srow, scol)
       if not (g.rooms[de].is_room == g.R_NOTHING) then
         -- continue
       else
-        drow = g.int_div(g.rooms[de].top_row + g.rooms[de].bottom_row, 2)
-        dcol = g.int_div(g.rooms[de].left_col + g.rooms[de].right_col, 2)
+        drow = util.int_div(g.rooms[de].top_row + g.rooms[de].bottom_row, 2)
+        dcol = util.int_div(g.rooms[de].left_col + g.rooms[de].right_col, 2)
         if same_row(rn, de) then
           tunnel_dir = (g.rooms[rn].left_col < g.rooms[de].left_col) and g.RIGHT
             or g.LEFT
@@ -542,7 +543,8 @@ local function fill_it(rn, do_rec_de)
       end
       door_dir = ((tunnel_dir + 4) % g.DIRS)
       if
-        g.rooms[target_room].doors[g.int_div(door_dir, 2)].oth_room ~= g.NO_ROOM
+        g.rooms[target_room].doors[util.int_div(door_dir, 2)].oth_room
+        ~= g.NO_ROOM
       then
         -- continue
       else
@@ -555,8 +557,8 @@ local function fill_it(rn, do_rec_de)
           scol = tmp_scol
         end
         if (not do_rec_de or did_this) or not mask_room_ret then
-          srow = g.int_div(g.rooms[rn].top_row + g.rooms[rn].bottom_row, 2)
-          scol = g.int_div(g.rooms[rn].left_col + g.rooms[rn].right_col, 2)
+          srow = util.int_div(g.rooms[rn].top_row + g.rooms[rn].bottom_row, 2)
+          scol = util.int_div(g.rooms[rn].left_col + g.rooms[rn].right_col, 2)
         end
         drow, dcol = put_door(g.rooms[target_room], door_dir)
         rooms_found = rooms_found + 1
@@ -805,11 +807,11 @@ function g.show_average_hp()
   local effective_average = 0
 
   if g.rogue.exp ~= 1 then
-    real_average = g.int_div(
+    real_average = util.int_div(
       ((g.rogue.hp_max - g.extra_hp - g.INIT_HP) + g.less_hp) * 100,
       (g.rogue.exp - 1)
     )
-    effective_average = g.int_div(
+    effective_average = util.int_div(
       (g.rogue.hp_max - g.INIT_HP) * 100,
       (g.rogue.exp - 1)
     )
@@ -817,9 +819,9 @@ function g.show_average_hp()
   g.message(
     string.format(
       g.mesg[54],
-      g.int_div(real_average, 100),
+      util.int_div(real_average, 100),
       (real_average % 100),
-      g.int_div(effective_average, 100),
+      util.int_div(effective_average, 100),
       (effective_average % 100),
       g.extra_hp,
       g.less_hp

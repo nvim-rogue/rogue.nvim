@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 local rand_around_pos = { [0] = 8, 7, 1, 3, 4, 5, 2, 6, 0 }
 local rand_around_row = 0
@@ -17,16 +18,16 @@ local function potion_monster(monster, kind)
   then
   elseif kind == g.EXTRA_HEALING then
     monster.hp_to_kill = monster.hp_to_kill
-      + g.int_div(((maxhp - monster.hp_to_kill) * 2), 3)
+      + util.int_div(((maxhp - monster.hp_to_kill) * 2), 3)
   elseif
     kind == g.INCREASE_STRENGTH
     or kind == g.HEALING
     or kind == g.RAISE_LEVEL
   then
     monster.hp_to_kill = monster.hp_to_kill
-      + g.int_div((maxhp - monster.hp_to_kill), 5)
+      + util.int_div((maxhp - monster.hp_to_kill), 5)
   elseif kind == g.POISON then
-    g.mon_damage(monster, (g.int_div(monster.hp_to_kill, 4) + 1))
+    g.mon_damage(monster, (util.int_div(monster.hp_to_kill, 4) + 1))
   elseif kind == g.BLINDNESS then
     monster.m_flags[g.ASLEEP] = g.m_flags_desc[g.ASLEEP]
     monster.m_flags[g.WAKENS] = g.m_flags_desc[g.WAKENS]
@@ -50,8 +51,8 @@ local function throw_at_monster(monster, weapon)
     and (g.rogue.weapon and g.rogue.weapon.which_kind == g.BOW)
   then
     damage = damage + g.get_weapon_damage(g.rogue.weapon)
-    damage = g.int_div((damage * 2), 3)
-    hit_chance = hit_chance + g.int_div(hit_chance, 3)
+    damage = util.int_div((damage * 2), 3)
+    hit_chance = hit_chance + util.int_div(hit_chance, 3)
   elseif
     weapon.in_use_flags == g.BEING_WIELDED
     and (
@@ -60,8 +61,8 @@ local function throw_at_monster(monster, weapon)
       or weapon.which_kind == g.DART
     )
   then
-    damage = g.int_div((damage * 3), 2)
-    hit_chance = hit_chance + g.int_div(hit_chance, 3)
+    damage = util.int_div((damage * 3), 2)
+    hit_chance = hit_chance + util.int_div(hit_chance, 3)
   end
   local t = weapon.quantity
   weapon.quantity = 1
@@ -91,7 +92,7 @@ local function get_thrown_at_monster(obj, dir, row, col)
   while i < 24 do
     row, col = g.get_dir_rc(dir, row, col, false)
     if
-      g.table_is_empty(g.dungeon[row][col])
+      vim.tbl_isempty(g.dungeon[row][col])
       or (
         (
           g.dungeon[row][col][g.HORWALL]
@@ -151,7 +152,7 @@ local function flop_weapon(weapon, row, col)
       or (row < g.MIN_ROW)
       or (col > (g.DCOLS - 1))
       or (col < 0)
-      or g.table_is_empty(g.dungeon[row][col])
+      or vim.tbl_isempty(g.dungeon[row][col])
       or (
         g.dungeon[row][col][g.OBJECT]
         or g.dungeon[row][col][g.STAIRS]

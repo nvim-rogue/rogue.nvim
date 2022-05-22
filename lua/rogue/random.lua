@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 local rntb = {
   [0] = 3,
@@ -52,7 +53,7 @@ local function rrandom()
     i = rntb[state]
   else
     rntb[fptr] = (rntb[fptr] + rntb[rptr]) % 0x100000000
-    i = g.int_div(rntb[fptr], 2) % 0x80000000
+    i = util.int_div(rntb[fptr], 2) % 0x80000000
     fptr = fptr + 1
     if fptr >= end_ptr then
       fptr = state

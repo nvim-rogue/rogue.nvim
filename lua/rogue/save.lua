@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local util = require "rogue.util"
 
 g.save_file = "rogue_vim.save"
 
@@ -56,7 +57,7 @@ local function save_into_file(fname)
   Rogue_copy.rogue.left_ring = nil
   Rogue_copy.rogue.right_ring = nil
 
-  local buf = g.dump(Rogue_copy)
+  local buf = util.dump(Rogue_copy)
   -- easy compression
   buf = buf
     :gsub("\n *", "")
@@ -124,7 +125,7 @@ function g.restore(fname)
   vim.cmd 'let &encoding = "utf-8"'
   buf = g.iconv_from_utf8(buf)
   vim.cmd "let &encoding = s:save_encoding"
-  local Rogue_copy = assert(g.loadstring("return " .. buf), g.mesg[508])()
+  local Rogue_copy = assert(util.loadstring("return " .. buf), g.mesg[508])()
 
   if g.home_dir ~= Rogue_copy.home_dir then
     g.message(g.mesg[506])
@@ -133,7 +134,7 @@ function g.restore(fname)
 
   local saved_time = Rogue_copy.saved_time
   Rogue_copy.saved_time = nil
-  if saved_time < g.getftime(fname) then
+  if saved_time < vim.fn.getftime(fname) then
     g.message(g.mesg[509])
     return false
   end

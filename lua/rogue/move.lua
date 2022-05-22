@@ -369,8 +369,8 @@ function g.can_move(row1, col1, row2, col2)
     if
       g.dungeon[row1][col1][g.DOOR]
       or g.dungeon[row2][col2][g.DOOR]
-      or g.table_is_empty(g.dungeon[row1][col2])
-      or g.table_is_empty(g.dungeon[row2][col1])
+      or vim.tbl_isempty(g.dungeon[row1][col2])
+      or vim.tbl_isempty(g.dungeon[row2][col1])
     then
       return false
     end
