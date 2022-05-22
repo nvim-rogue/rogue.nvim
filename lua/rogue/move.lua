@@ -74,7 +74,8 @@ function g.one_move_rogue(dirch, pickup)
       g.light_passage(row, col)
     end
   elseif
-    g.dungeon[g.rogue.row][g.rogue.col][g.DOOR] and g.dungeon[row][col][g.TUNNEL]
+    g.dungeon[g.rogue.row][g.rogue.col][g.DOOR]
+    and g.dungeon[row][col][g.TUNNEL]
   then
     g.light_passage(row, col)
     g.wake_room(g.cur_room, false, g.rogue.row, g.rogue.col)

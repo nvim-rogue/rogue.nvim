@@ -91,7 +91,7 @@ function g.refresh()
         row_str = row_str .. dungeon_str_buffer[i].str
         if g.update_flag or row_str ~= last_print_area then
           vim.cmd "redraw"
-          print((vim.fn.has('gui_running') ~= 0 and "" or " ") .. row_str)
+          print((vim.fn.has "gui_running" ~= 0 and "" or " ") .. row_str)
           vim.cmd "redrawstatus"
           last_print_area = row_str
           done_redraw = true

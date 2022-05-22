@@ -130,13 +130,48 @@ function g.init_object()
     { value = 580, title = g.mesg[381], real = "", id_status = 0 },
   }
   g.id_armors = {
-    [0] = { value = 300, title = g.mesg[382], real = "", id_status = g.UNIDENTIFIED },
-    { value = 300, title = g.mesg[383], real = "", id_status = g.UNIDENTIFIED },
-    { value = 400, title = g.mesg[384], real = "", id_status = g.UNIDENTIFIED },
-    { value = 500, title = g.mesg[385], real = "", id_status = g.UNIDENTIFIED },
-    { value = 600, title = g.mesg[386], real = "", id_status = g.UNIDENTIFIED },
-    { value = 600, title = g.mesg[387], real = "", id_status = g.UNIDENTIFIED },
-    { value = 700, title = g.mesg[388], real = "", id_status = g.UNIDENTIFIED },
+    [0] = {
+      value = 300,
+      title = g.mesg[382],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
+    {
+      value = 300,
+      title = g.mesg[383],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
+    {
+      value = 400,
+      title = g.mesg[384],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
+    {
+      value = 500,
+      title = g.mesg[385],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
+    {
+      value = 600,
+      title = g.mesg[386],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
+    {
+      value = 600,
+      title = g.mesg[387],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
+    {
+      value = 700,
+      title = g.mesg[388],
+      real = "",
+      id_status = g.UNIDENTIFIED,
+    },
   }
   g.id_wands = {
     [0] = { value = 25, title = "", real = g.mesg[389], id_status = 0 },

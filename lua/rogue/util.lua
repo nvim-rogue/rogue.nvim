@@ -8,12 +8,9 @@ else
 end
 
 function g.get_vim_variable(var)
-  if vim then
-    if vim.fn.exists(var) ~= 0 then
-      return vim.fn.eval(var)
-    end
+  if vim.fn.exists(var) ~= 0 then
+    return vim.fn.eval(var)
   end
-  return ""
 end
 
 g.bxor = nil
@@ -22,10 +19,9 @@ local bit_exists, bit = pcall(require, "bit")
 if bit_exists then
   g.bxor = bit.bxor
 elseif _VERSION >= "Lua 5.3" then
-  local file_dir = g.get_vim_variable "s:FILE_DIR"
-  dofile(file_dir .. "lua53.lua")
-  g.bxor = g.lua53_bxor
+  g.bxor = require("rogue.lua53").lua53_bxor
 elseif _VERSION >= "Lua 5.2" then
+  ---@diagnostic disable-next-line: undefined-global
   g.bxor = bit32.bxor
 else
   g.bxor = function(x, y)
@@ -121,31 +117,15 @@ function g.int_div(dividend, divisor)
 end
 
 function g.table_is_empty(tbl)
-  if next(tbl) == nil then
-    return true
-  else
-    return false
-  end
+  return next(tbl) == nil
 end
 
 function g.strwidth(s)
-  local len
-  if vim then
-    len = vim.fn.strwidth(s)
-  else
-    len = #s
-  end
-  return len
+  return vim.fn.strwidth(s)
 end
 
 function g.getftime(fname)
-  local t
-  if vim then
-    t = vim.fn.getftime(fname)
-  else
-    t = -1
-  end
-  return t
+  return vim.fn.getftime(fname)
 end
 
 function g.split(str, sep)
@@ -168,9 +148,7 @@ function g.split(str, sep)
 end
 
 function g.msleep(n)
-  if vim then
-    vim.cmd("sleep " .. tostring(n) .. "m")
-  end
+  vim.cmd("sleep " .. tostring(n) .. "m")
 end
 
 g.EXIT_SUCCESS = "g.EXIT_SUCCESS"
@@ -197,14 +175,14 @@ end
 
 function g.iconv_from_utf8(str)
   if g.needs_iconv then
-    str = vim.fn.iconv(str, 'utf-8', vim.fn.eval("s:save_encoding"))
+    return vim.fn.iconv(str, "utf-8", vim.fn.eval "s:save_encoding")
   end
   return str
 end
 
 function g.iconv_to_utf8(str)
   if g.needs_iconv then
-    str = vim.fn.iconv(str, vim.fn.eval("s:save_encoding"), 'utf-8')
+    return vim.fn.iconv(str, vim.fn.eval "s:save_encoding", "utf-8")
   end
   return str
 end

@@ -30,7 +30,7 @@ local function init_dirs()
   end
   g.home_dir = g.home_dir:gsub("\\", "/")
 
-  g.game_dir = g.get_vim_variable "g:rogue#directory"
+  g.game_dir = vim.g["rogue#directory"]
   if type(g.game_dir) ~= "string" or g.game_dir == "" then
     g.game_dir = g.home_dir
   else
@@ -39,7 +39,7 @@ local function init_dirs()
     if vim then
       local exists = vim.fn.isdirectory(g.game_dir)
       if exists == 0 then
-        vim.fn.mkdir(g.game_dir, 'p')
+        vim.fn.mkdir(g.game_dir, "p")
       end
     end
   end
@@ -77,14 +77,14 @@ local function read_mesg()
   g.mesg = {}
 
   local file_dir = g.get_vim_variable "s:FILE_DIR"
-  local mesg_fname = g.get_vim_variable "g:rogue#message"
+  local mesg_fname = vim.g["rogue#message"]
   if type(mesg_fname) == "string" and mesg_fname ~= "" then
     mesg_fname = g.expand_fname(mesg_fname, file_dir)
     read_mesg_file(mesg_fname)
   end
 
-  local japanese = g.get_vim_variable "g:rogue#japanese"
-  local lang = g.get_vim_variable "v:lang"
+  local japanese = vim.g["rogue#japanese"]
+  local lang = vim.v.lang
   if type(japanese) == "number" then
     if japanese ~= 0 then
       g.JAPAN = true

@@ -29,7 +29,7 @@ function g.rgetchar()
   local c = ""
   if type(n) == "string" then
     if vim then
-      if n == vim.api.nvim_replace_termcodes('<BS>', true, true, true) then
+      if n == vim.api.nvim_replace_termcodes("<BS>", true, true, true) then
         c = "BS"
       end
     end

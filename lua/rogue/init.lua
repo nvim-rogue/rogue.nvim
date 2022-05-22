@@ -11,33 +11,18 @@ g.do_restore = false
 local rest_file = nil
 
 local function set_nick_name()
-  g.nick_name = g.get_vim_variable "g:rogue#name"
-  if type(g.nick_name) == "string" and g.nick_name ~= "" then
-    return
-  end
-  g.nick_name = os.getenv "FIGHTER"
-  if g.nick_name then
-    return
-  end
-  g.nick_name = os.getenv "USER"
-  if g.nick_name then
-    return
-  end
-  g.nick_name = os.getenv "USERNAME"
-  if g.nick_name then
-    return
-  end
+  g.nick_name = vim.g["rogue#name"]
+    or os.getenv "FIGHTER"
+    or os.getenv "USER"
+    or os.getenv "USERNAME"
   local default_name = g.mesg[542]
-  if vim then
-    vim.ui.input({ prompt = g.mesg[13], default = default_name }, function(input)
-      g.nick_name = input
-    end)
-    if g.nick_name == "" then
+  vim.ui.input({ prompt = g.mesg[13], default = default_name }, function(input)
+    if input == "" then
       g.nick_name = default_name
+    else
+      g.nick_name = input
     end
-  else
-    g.nick_name = default_name
-  end
+  end)
 end
 
 local function do_args(args)
@@ -62,11 +47,11 @@ local function do_args(args)
 end
 
 local function do_opts()
-  local save_file = g.get_vim_variable "g:rogue#file"
+  local save_file = vim.g["rogue#file"]
   if type(save_file) == "string" and save_file ~= "" then
     g.save_file = save_file
   end
-  local color = g.get_vim_variable "g:rogue#color"
+  local color = vim.g["rogue#color"]
   if type(color) == "number" then
     if color ~= 0 then
       g.COLOR = true
@@ -74,7 +59,7 @@ local function do_opts()
       g.COLOR = false
     end
   end
-  local jump = g.get_vim_variable "g:rogue#jump"
+  local jump = vim.g["rogue#jump"]
   if type(jump) == "number" then
     if jump ~= 0 then
       g.jump = true
@@ -82,7 +67,7 @@ local function do_opts()
       g.jump = false
     end
   end
-  local passgo = g.get_vim_variable "g:rogue#passgo"
+  local passgo = vim.g["rogue#passgo"]
   if type(passgo) == "number" then
     if passgo ~= 0 then
       g.pass_go = true
@@ -90,7 +75,7 @@ local function do_opts()
       g.pass_go = false
     end
   end
-  local tombstone = g.get_vim_variable "g:rogue#tombstone"
+  local tombstone = vim.g["rogue#tombstone"]
   if type(tombstone) == "number" then
     if tombstone ~= 0 then
       g.show_skull = true
@@ -98,7 +83,7 @@ local function do_opts()
       g.show_skull = false
     end
   end
-  local fruit = g.get_vim_variable "g:rogue#fruit"
+  local fruit = vim.g["rogue#fruit"]
   if type(fruit) == "string" and fruit ~= "" then
     g.fruit = fruit
   end
