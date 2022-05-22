@@ -20,7 +20,7 @@ end
 function g.rgetchar()
   local n
   if vim then
-    n = vim.eval "getchar()"
+    n = vim.fn.getchar()
   else
     os.execute "stty -echo cbreak"
     n = string.byte(io.stdin:read(1))
@@ -29,7 +29,7 @@ function g.rgetchar()
   local c = ""
   if type(n) == "string" then
     if vim then
-      if n == vim.eval '"\\<BS>"' then
+      if n == vim.api.nvim_replace_termcodes('<BS>', true, true, true) then
         c = "BS"
       end
     end
@@ -44,7 +44,7 @@ function g.rgetchar()
       end
     else
       if vim then
-        c = vim.eval("nr2char(" .. tostring(n) .. ")")
+        c = vim.fn.nr2char(n)
       elseif n <= 0x7E then
         c = string.char(n)
       end

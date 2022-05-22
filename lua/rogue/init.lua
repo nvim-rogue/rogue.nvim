@@ -29,9 +29,9 @@ local function set_nick_name()
   end
   local default_name = g.mesg[542]
   if vim then
-    g.nick_name = vim.eval(
-      'inputdialog("' .. g.mesg[13] .. ' ", "' .. default_name .. '")'
-    )
+    vim.ui.input({ prompt = g.mesg[13], default = default_name }, function(input)
+      g.nick_name = input
+    end)
     if g.nick_name == "" then
       g.nick_name = default_name
     end

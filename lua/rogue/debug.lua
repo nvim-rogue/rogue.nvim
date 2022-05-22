@@ -23,7 +23,7 @@ function g.msgbox(fmt, ...)
   if not g.DEBUG or not vim then
     return
   end
-  vim.eval("confirm('" .. string.format(fmt, ...) .. "')")
+  vim.fn.confirm(string.format(fmt, ...))
 end
 
 function g.log(fmt, ...)
@@ -178,7 +178,11 @@ function g.breakpoint(log_flag)
   local level = 2
   local prompt = "\n" .. g.__FILE_LINE__(level) .. "\n" .. "Breakpoint: "
   while true do
-    local input = vim.eval('input("' .. prompt .. '", "", "tag")')
+    vim.ui.input({ prompt = prompt, completion = "tag" }, function(input)
+      g._input = input
+    end)
+    local input = g._input
+    g._input = nil
     if input == "" then
       break
     end

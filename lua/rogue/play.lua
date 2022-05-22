@@ -96,7 +96,7 @@ end
 
 local function doshell()
   if vim then
-    vim.command "sh"
+    vim.cmd "sh"
   end
 end
 
