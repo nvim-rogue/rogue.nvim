@@ -1,11 +1,11 @@
 
-let s:FILE_DIR = fnamemodify(expand("<sfile>"), ':h') . '/'
+let s:FILE_DIR = fnamemodify(expand("<sfile>"), ':h:h:h') . '/lua/rogue/'
 let s:FILE_DIR = substitute(s:FILE_DIR, '\\', '/', 'g')
 function! rogue#rogue#main(args)
-	if !has('lua')
-		echo "Sorry. Rogue.vim needs '+lua'."
-		return
-	endif
+	" if !has('lua')
+	" 	echo "Sorry. Rogue.vim needs '+lua'."
+	" 	return
+	" endif
 	let resume = 0
 	if luaeval('type(Rogue)') ==# 'table' &&
 			\ luaeval('tostring(Rogue.suspended)') ==# 'true'
