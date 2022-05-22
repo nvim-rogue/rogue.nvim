@@ -1,3 +1,6 @@
+
+**This plugin is still under the development!***
+
 # rogue.vim
 
 _"Hello Vimmer, welcome to the Dungeons of Doom..."_
