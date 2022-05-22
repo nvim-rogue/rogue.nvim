@@ -2,7 +2,7 @@
 scriptencoding utf-8
 
 if exists("b:current_syntax")
-	finish
+  finish
 endif
 
 syn match rogue_WallH	"-"
@@ -48,11 +48,11 @@ syn match rogue_ConcealedGreenFill	"(G(" contained conceal
 
 let s:fg = synIDattr(synIDtrans(hlID("rogueWall")), "fg")
 if s:fg == '' || s:fg == '-1'
-	if &background == "dark"
-		hi rogueWall	ctermfg=cyan	guifg=cyan
-	else
-		hi rogueWall	ctermfg=blue	guifg=blue
-	endif
+  if &background == "dark"
+    hi rogueWall	ctermfg=cyan	guifg=cyan
+  else
+    hi rogueWall	ctermfg=blue	guifg=blue
+  endif
 endif
 hi def link rogue_WallH		rogueWall
 hi def link rogue_WallV		rogueWall
@@ -61,21 +61,21 @@ hi def link rogue_Tunnel	rogueWall
 
 let s:fg = synIDattr(synIDtrans(hlID("rogueFloor")), "fg")
 if s:fg == '' || s:fg == '-1'
-	if &background == "dark"
-		hi rogueFloor	ctermfg=blue	guifg=blue
-	else
-		hi rogueFloor	ctermfg=gray	guifg=gray
-	endif
+  if &background == "dark"
+    hi rogueFloor	ctermfg=blue	guifg=blue
+  else
+    hi rogueFloor	ctermfg=gray	guifg=gray
+  endif
 endif
 hi def link rogue_Floor		rogueFloor
 
 let s:fg = synIDattr(synIDtrans(hlID("rogueItem")), "fg")
 if s:fg == '' || s:fg == '-1'
-	if &background == "dark"
-		hi rogueItem	ctermfg=yellow	guifg=yellow
-	else
-		hi rogueItem	ctermfg=brown	guifg=brown
-	endif
+  if &background == "dark"
+    hi rogueItem	ctermfg=yellow	guifg=yellow
+  else
+    hi rogueItem	ctermfg=brown	guifg=brown
+  endif
 endif
 hi def link rogue_Stairs	rogueItem
 hi def link rogue_Trap		rogueItem
@@ -91,36 +91,36 @@ hi def link rogue_Amulet	rogueItem
 
 let s:fg = synIDattr(synIDtrans(hlID("rogueMonster")), "fg")
 if s:fg == '' || s:fg == '-1'
-	if &background == "dark"
-		hi rogueMonster	ctermfg=magenta	guifg=magenta
-	else
-		hi rogueMonster	ctermfg=red	guifg=red
-	endif
+  if &background == "dark"
+    hi rogueMonster	ctermfg=magenta	guifg=magenta
+  else
+    hi rogueMonster	ctermfg=red	guifg=red
+  endif
 endif
 hi def link rogue_Monster	rogueMonster
 
 let s:fg = synIDattr(synIDtrans(hlID("rogueFighter")), "fg")
 if s:fg == '' || s:fg == '-1'
-	if &background == "dark"
-		hi rogueFighter	ctermfg=green	guifg=green
-	else
-		hi rogueFighter	ctermfg=darkgreen	guifg=darkgreen
-	endif
+  if &background == "dark"
+    hi rogueFighter	ctermfg=green	guifg=green
+  else
+    hi rogueFighter	ctermfg=darkgreen	guifg=darkgreen
+  endif
 endif
 hi def link rogue_Fighter	rogueFighter
 
 hi def link rogue_Message	Normal
 
 if &background == "dark"
-	hi rogue_Red	ctermfg=red	guifg=red
-	hi rogue_Green	ctermfg=green	guifg=green
-	hi rogue_Yellow	ctermfg=yellow	guifg=yellow
-	hi rogue_GreenFill	ctermfg=green	ctermbg=green	guifg=green	guibg=green
+  hi rogue_Red	ctermfg=red	guifg=red
+  hi rogue_Green	ctermfg=green	guifg=green
+  hi rogue_Yellow	ctermfg=yellow	guifg=yellow
+  hi rogue_GreenFill	ctermfg=green	ctermbg=green	guifg=green	guibg=green
 else
-	hi rogue_Red	ctermfg=darkred	guifg=darkred
-	hi rogue_Green	ctermfg=darkgreen	guifg=darkgreen
-	hi rogue_Yellow	ctermfg=brown	guifg=brown
-	hi rogue_GreenFill	ctermfg=darkgreen	ctermbg=darkgreen	guifg=darkgreen	guibg=darkgreen
+  hi rogue_Red	ctermfg=darkred	guifg=darkred
+  hi rogue_Green	ctermfg=darkgreen	guifg=darkgreen
+  hi rogue_Yellow	ctermfg=brown	guifg=brown
+  hi rogue_GreenFill	ctermfg=darkgreen	ctermbg=darkgreen	guifg=darkgreen	guibg=darkgreen
 endif
 hi rogue_CyanBg	ctermfg=red	ctermbg=cyan	guifg=red	guibg=cyan
 hi rogue_RedBg	ctermbg=red	guifg=fg	guibg=red

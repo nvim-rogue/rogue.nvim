@@ -4,5 +4,5 @@ local g = Rogue -- alias
 -- because using new features.
 
 function g.lua53_bxor(x, y)
-	return x ~ y
+  return x ~ y
 end
