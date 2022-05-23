@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 
 local left_or_right
 local no_ring
@@ -152,7 +153,7 @@ end
 function g.gr_ring(ring, assign_wk)
   ring.what_is = g.RING
   if assign_wk then
-    ring.which_kind = g.get_rand(0, g.RINGS - 1)
+    ring.which_kind = random.get_rand(0, g.RINGS - 1)
     ring.which_kind_ring = ring.which_kind
   end
   ring.class = 0
@@ -163,11 +164,11 @@ function g.gr_ring(ring, assign_wk)
     ring.which_kind == g.ADD_STRENGTH or ring.which_kind == g.DEXTERITY
   then
     repeat
-      ring.class = g.get_rand(0, 4) - 2
+      ring.class = random.get_rand(0, 4) - 2
     until ring.class ~= 0
     ring.is_cursed = (ring.class < 0)
   elseif ring.which_kind == g.ADORNMENT then
-    ring.is_cursed = g.coin_toss()
+    ring.is_cursed = random.coin_toss()
   end
 end
 

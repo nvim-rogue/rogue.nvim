@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 g.level_monsters = {}
@@ -441,7 +442,7 @@ local function aim_monster(monster)
     -- fixed original bug: access rooms[-1]
     return
   end
-  local r = g.get_rand(0, 12)
+  local r = random.get_rand(0, 12)
 
   for i = 0, 3 do
     local d = (r + i) % 4
@@ -463,10 +464,10 @@ local function put_m_at(row, col, monster)
 end
 
 function g.put_mons()
-  local n = g.get_rand(4, 6)
+  local n = random.get_rand(4, 6)
   for i = 1, n do
     local monster = g.gr_monster(nil, 0)
-    if monster.m_flags[g.WANDERS] and g.coin_toss() then
+    if monster.m_flags[g.WANDERS] and random.coin_toss() then
       g.wake_up(monster)
     end
     local row, col = g.gr_row_col {
@@ -483,7 +484,7 @@ function g.gr_monster(monster, mn)
   if not monster then
     monster = {}
     while true do
-      mn = g.get_rand(0, g.MONSTERS - 1)
+      mn = random.get_rand(0, g.MONSTERS - 1)
       if
         (g.cur_level >= g.mon_tab[mn].first_level)
         and (g.cur_level <= g.mon_tab[mn].last_level)
@@ -518,8 +519,8 @@ local function move_confused(monster)
       monster.m_flags[g.CONFUSED] = nil
     end
     if monster.m_flags[g.STATIONARY] then
-      return g.coin_toss()
-    elseif g.rand_percent(15) then
+      return random.coin_toss()
+    elseif random.rand_percent(15) then
       return true
     end
     local row = monster.row
@@ -610,8 +611,8 @@ function g.party_monsters(rn, n)
     local row, col
     local found = false
     for j = 0, 249 do
-      row = g.get_rand(g.rooms[rn].top_row + 1, g.rooms[rn].bottom_row - 1)
-      col = g.get_rand(g.rooms[rn].left_col + 1, g.rooms[rn].right_col - 1)
+      row = random.get_rand(g.rooms[rn].top_row + 1, g.rooms[rn].bottom_row - 1)
+      col = random.get_rand(g.rooms[rn].left_col + 1, g.rooms[rn].right_col - 1)
       if
         not g.dungeon[row][col][g.MONSTER]
         and (g.dungeon[row][col][g.FLOOR] or g.dungeon[row][col][g.TUNNEL])
@@ -657,10 +658,10 @@ function g.gmc(monster)
 end
 
 local function flit(monster)
-  if not g.rand_percent(g.FLIT_PERCENT) then
+  if not random.rand_percent(g.FLIT_PERCENT) then
     return false
   end
-  if g.rand_percent(10) then
+  if random.rand_percent(10) then
     return false
   end
   local row = monster.row
@@ -692,7 +693,7 @@ function g.mv_monster(monster, row, col)
     if
       monster.m_flags[g.WAKENS]
       and g.rogue_is_around(monster.row, monster.col)
-      and g.rand_percent(
+      and random.rand_percent(
         (
             (g.stealthy > 0)
               and util.int_div(g.WAKE_PERCENT, (g.STEALTH_FACTOR + g.stealthy))
@@ -766,7 +767,7 @@ function g.mv_monster(monster, row, col)
   for i = 0, 5 do
     local n
     repeat
-      n = g.get_rand(0, 5)
+      n = random.get_rand(0, 5)
     until not tried[n]
     if n == 0 then
       if mtry(monster, row, monster.col - 1) then
@@ -803,8 +804,8 @@ function g.mv_monster(monster, row, col)
         monster.trow == g.NO_ROOM
         and not g.mon_sees(monster, g.rogue.row, g.rogue.col)
       then
-        monster.trow = g.get_rand(1, (g.DROWS - 2))
-        monster.tcol = g.get_rand(0, (g.DCOLS - 1))
+        monster.trow = random.get_rand(1, (g.DROWS - 2))
+        monster.tcol = random.get_rand(0, (g.DCOLS - 1))
       else
         monster.trow = g.NO_ROOM
         monster.o = 0
@@ -949,7 +950,7 @@ function g.wake_room(rn, entering, row, col)
       monster.m_flags[g.WAKENS]
       and (rn == g.get_room_number(monster.row, monster.col))
     then
-      if g.rand_percent(wake_percent) then
+      if random.rand_percent(wake_percent) then
         g.wake_up(monster)
       end
     end
@@ -968,7 +969,7 @@ function g.mon_name(monster)
     return g.mesg[63]
   end
   if g.halluc > 0 then
-    return g.m_names[g.get_rand(0, 25)]
+    return g.m_names[random.get_rand(0, 25)]
   end
   return monster.m_name
 end
@@ -1090,7 +1091,7 @@ end
 
 function g.gr_obj_char()
   local rs = { "%", "!", "?", "]", "=", "/", ")", ":", "*" }
-  local r = g.get_rand(1, 9)
+  local r = random.get_rand(1, 9)
   return rs[r]
 end
 

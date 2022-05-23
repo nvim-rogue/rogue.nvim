@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 local rand_around_pos = { [0] = 8, 7, 1, 3, 4, 5, 2, 6, 0 }
@@ -33,7 +34,7 @@ local function potion_monster(monster, kind)
     monster.m_flags[g.WAKENS] = g.m_flags_desc[g.WAKENS]
   elseif kind == g.CONFUSION then
     monster.m_flags[g.CONFUSED] = g.m_flags_desc[g.CONFUSED]
-    monster.moves_confused = monster.moves_confused + g.get_rand(12, 22)
+    monster.moves_confused = monster.moves_confused + random.get_rand(12, 22)
   elseif kind == g.HASTE_SELF then
     if monster.m_flags[g.SLOWED] then
       monster.m_flags[g.SLOWED] = nil
@@ -69,12 +70,12 @@ local function throw_at_monster(monster, weapon)
   g.hit_message = string.format(g.mesg[212], g.name_of(weapon))
   weapon.quantity = t
 
-  if not g.rand_percent(hit_chance) then
+  if not random.rand_percent(hit_chance) then
     g.hit_message = g.hit_message .. g.mesg[213]
     return false
   end
   g.hit_message = g.hit_message .. g.mesg[214]
-  if weapon.what_is == g.WAND and g.rand_percent(75) then
+  if weapon.what_is == g.WAND and random.rand_percent(75) then
     g.zap_monster(monster, weapon.which_kind)
   elseif weapon.what_is == g.POTION then
     potion_monster(monster, weapon.which_kind)
@@ -263,9 +264,9 @@ function g.rand_around(i, r, c)
   if i == 0 then
     rand_around_row = r
     rand_around_col = c
-    local o = g.get_rand(1, 8)
+    local o = random.get_rand(1, 8)
     for j = 0, 4 do
-      local x = g.get_rand(0, 8) % 9
+      local x = random.get_rand(0, 8) % 9
       local y = (x + o) % 9
       local t = rand_around_pos[x]
       rand_around_pos[x] = rand_around_pos[y]

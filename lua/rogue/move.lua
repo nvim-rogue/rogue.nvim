@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 
 g.m_moves = 0
 g.you_can_move_again = ""
@@ -16,7 +17,7 @@ function g.init_move()
 end
 
 function g.gr_dir()
-  local idx = g.get_rand(1, 8)
+  local idx = random.get_rand(1, 8)
   return string.sub("jklhyubn", idx, idx)
 end
 
@@ -55,7 +56,7 @@ function g.one_move_rogue(dirch, pickup)
     end
   end
   if g.r_teleport then
-    if g.rand_percent(g.R_TELE_PERCENT) then
+    if random.rand_percent(g.R_TELE_PERCENT) then
       g.tele()
       return g.STOPPED_ON_SOMETHING
     end
@@ -414,15 +415,15 @@ local function check_hunger(messages_only)
       g.message(g.mesg[76], true)
       g.print_stats()
     end
-    local n = g.get_rand(0, (g.FAINT - g.rogue.moves_left))
+    local n = random.get_rand(0, (g.FAINT - g.rogue.moves_left))
     if n > 0 then
       fainted = true
-      if g.rand_percent(40) then
+      if random.rand_percent(40) then
         g.rogue.moves_left = g.rogue.moves_left + 1
       end
       g.message(g.mesg[77], true)
       for i = 1, n do
-        if g.coin_toss() then
+        if random.coin_toss() then
           g.mv_mons()
         end
       end

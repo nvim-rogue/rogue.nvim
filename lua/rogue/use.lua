@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 g.halluc = 0
@@ -125,10 +126,10 @@ function g.eat()
     return
   end
   local moves
-  if obj.which_kind == g.FRUIT or g.rand_percent(60) then
-    moves = g.get_rand(900, 1100)
+  if obj.which_kind == g.FRUIT or random.rand_percent(60) then
+    moves = random.get_rand(900, 1100)
     if obj.which_kind == g.RATION then
-      if g.get_rand(1, 10) == 1 then
+      if random.get_rand(1, 10) == 1 then
         g.message(g.mesg[265])
       else
         g.message(g.mesg[266])
@@ -137,7 +138,7 @@ function g.eat()
       g.message(string.format(g.mesg[267], g.fruit))
     end
   else
-    moves = g.get_rand(700, 900)
+    moves = random.get_rand(700, 900)
     g.message(g.mesg[268])
     g.add_exp(2, true)
   end
@@ -219,7 +220,11 @@ function g.hallucinate()
   while monster do
     local ch = g.mvinch(monster.row, monster.col)
     if ch:find "^[A-Z]$" then
-      g.mvaddch(monster.row, monster.col, g.mon_tab[g.get_rand(0, 25)].m_char)
+      g.mvaddch(
+        monster.row,
+        monster.col,
+        g.mon_tab[random.get_rand(0, 25)].m_char
+      )
     end
     monster = monster.next_object
   end
@@ -253,13 +258,13 @@ function g.relight()
 end
 
 function g.take_a_nap()
-  local i = g.get_rand(2, 5)
-  g.msleep(1000)
+  local i = random.get_rand(2, 5)
+  util.msleep(1000)
   while i > 0 do
     g.mv_mons()
     i = i - 1
   end
-  g.msleep(1000)
+  util.msleep(1000)
   g.message(g.you_can_move_again)
 end
 
@@ -267,7 +272,7 @@ local function go_blind()
   if g.blind == 0 then
     g.message(g.mesg[274])
   end
-  g.blind = g.blind + g.get_rand(500, 800)
+  g.blind = g.blind + random.get_rand(500, 800)
 
   if g.detect_monster then
     local monster = g.level_monsters.next_object
@@ -288,13 +293,13 @@ end
 
 local function get_ench_color()
   if g.halluc > 0 then
-    return g.id_potions[g.get_rand(0, g.POTIONS - 1)].title
+    return g.id_potions[random.get_rand(0, g.POTIONS - 1)].title
   end
   return g.mesg[275]
 end
 
 function g.confuse()
-  g.confused = g.confused + g.get_rand(12, 22)
+  g.confused = g.confused + random.get_rand(12, 22)
 end
 
 function g.unconfuse()
@@ -347,7 +352,7 @@ function g.quaff()
     potion_heal(true)
   elseif obj.which_kind == g.POISON then
     if not g.sustain_strength then
-      g.rogue.str_current = g.rogue.str_current - g.get_rand(1, 3)
+      g.rogue.str_current = g.rogue.str_current - random.get_rand(1, 3)
       if g.rogue.str_current < 1 then
         g.rogue.str_current = 1
       end
@@ -363,7 +368,7 @@ function g.quaff()
     go_blind()
   elseif obj.which_kind == g.HALLUCINATION then
     g.message(g.mesg[239])
-    g.halluc = g.halluc + g.get_rand(500, 800)
+    g.halluc = g.halluc + random.get_rand(500, 800)
   elseif obj.which_kind == g.DETECT_MONSTER then
     g.show_monsters()
     if not g.level_monsters.next_object then
@@ -382,12 +387,12 @@ function g.quaff()
     g.confuse()
   elseif obj.which_kind == g.LEVITATION then
     g.message(g.mesg[242])
-    g.levitate = g.levitate + g.get_rand(15, 30)
+    g.levitate = g.levitate + random.get_rand(15, 30)
     g.bear_trap = 0
     g.being_held = false
   elseif obj.which_kind == g.HASTE_SELF then
     g.message(g.mesg[243])
-    g.haste_self = g.haste_self + g.get_rand(11, 21)
+    g.haste_self = g.haste_self + random.get_rand(11, 21)
     if (g.haste_self % 2) == 0 then
       g.haste_self = g.haste_self + 1
     end
@@ -443,7 +448,7 @@ function g.read_scroll()
           )
         end
         g.message(msg)
-        if g.coin_toss() then
+        if random.coin_toss() then
           g.rogue.weapon.hit_enchant = g.rogue.weapon.hit_enchant + 1
         else
           g.rogue.weapon.d_enchant = g.rogue.weapon.d_enchant + 1

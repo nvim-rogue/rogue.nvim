@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 local Door = {}
@@ -199,8 +200,8 @@ function g.gr_row_col(mask)
   local c
 
   repeat
-    r = g.get_rand(g.MIN_ROW, g.DROWS - 2)
-    c = g.get_rand(0, g.DCOLS - 1)
+    r = random.get_rand(g.MIN_ROW, g.DROWS - 2)
+    c = random.get_rand(0, g.DCOLS - 1)
     rn = g.get_room_number(r, c)
   until not (
       (rn == g.NO_ROOM)
@@ -228,7 +229,7 @@ end
 function g.gr_room()
   local i
   repeat
-    i = g.get_rand(0, g.MAXROOMS - 1)
+    i = random.get_rand(0, g.MAXROOMS - 1)
   until g.rooms[i].is_room == g.R_ROOM or g.rooms[i].is_room == g.R_MAZE
   return i
 end
@@ -237,7 +238,7 @@ function g.party_objects(rn)
   local nf = 0
   local N = ((g.rooms[rn].bottom_row - g.rooms[rn].top_row) - 1)
     * ((g.rooms[rn].right_col - g.rooms[rn].left_col) - 1)
-  local n = g.get_rand(5, 10)
+  local n = random.get_rand(5, 10)
   if n > N then
     n = N - 2
   end
@@ -247,8 +248,8 @@ function g.party_objects(rn)
     local found = false
     local j = 0
     while not found and (j < 250) do
-      row = g.get_rand(g.rooms[rn].top_row + 1, g.rooms[rn].bottom_row - 1)
-      col = g.get_rand(g.rooms[rn].left_col + 1, g.rooms[rn].right_col - 1)
+      row = random.get_rand(g.rooms[rn].top_row + 1, g.rooms[rn].bottom_row - 1)
+      col = random.get_rand(g.rooms[rn].left_col + 1, g.rooms[rn].right_col - 1)
       if
         g.dungeon_equals(g.dungeon[row][col], g.FLOOR)
         or g.dungeon_equals(g.dungeon[row][col], g.TUNNEL)
@@ -394,7 +395,7 @@ function g.dr_course(monster, entering, row, col)
 
   if entering then -- entering room
     -- look for door to some other room
-    local r = g.get_rand(0, g.MAXROOMS - 1)
+    local r = random.get_rand(0, g.MAXROOMS - 1)
     for i = 0, g.MAXROOMS - 1 do
       local rr = (r + i) % g.MAXROOMS
       if

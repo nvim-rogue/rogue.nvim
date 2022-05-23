@@ -1,5 +1,5 @@
 local g = Rogue -- alias
-local util = require("rogue.util")
+local util = require "rogue.util"
 
 g.COLOR = true
 

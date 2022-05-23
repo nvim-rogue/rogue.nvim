@@ -1,4 +1,4 @@
-local g = Rogue -- alias
+local M = {}
 local util = require "rogue.util"
 
 local rntb = {
@@ -68,7 +68,9 @@ local function rrandom()
   return i
 end
 
-function g.srrandom(x)
+-- Sets `x` as the "seed" for the pseudo-random generator.
+---@param x integer
+function M.srrandom(x)
   rntb[state] = x
   if rand_type ~= 0 then
     for i = 1, rand_deg - 1 do
@@ -79,13 +81,16 @@ function g.srrandom(x)
     end
     fptr = state + rand_sep
     rptr = state
-    for i = 0, (10 * rand_deg) - 1 do
+    for _ = 0, (10 * rand_deg) - 1 do
       rrandom()
     end
   end
 end
 
-function g.get_rand(x, y)
+---@param x integer
+---@param y integer
+---@return integer
+function M.get_rand(x, y)
   if x > y then
     x, y = y, x
   end
@@ -96,41 +101,15 @@ function g.get_rand(x, y)
   return r
 end
 
-function g.rand_percent(percentage)
-  return g.get_rand(1, 100) <= percentage
+---@param percentage integer
+---@return boolean
+function M.rand_percent(percentage)
+  return M.get_rand(1, 100) <= percentage
 end
 
-function g.coin_toss()
-  if (rrandom() % 2) == 0 then
-    return false
-  else
-    return true
-  end
+---@return boolean
+function M.coin_toss()
+  return (rrandom() % 2) == 1
 end
 
---[[
-function g.srrandom(x)
-	math.randomseed(x)
-end
-
-
-function g.get_rand(x, y)
-	if x > y then
-		x, y = y, x
-	end
-	return math.random(x, y)
-end
-
-
-function g.rand_percent(percentage)
-	return g.get_rand(1, 100) <= percentage
-end
-
-function g.coin_toss()
-	if (g.get_rand(0, 1) % 2) == 0 then
-		return false
-	else
-		return true
-	end
-end
---]]
+return M

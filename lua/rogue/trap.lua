@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 
 local Trap = {}
 function Trap.new()
@@ -56,7 +57,7 @@ function g.trap_player(row, col)
     return
   end
   g.dungeon[row][col][g.HIDDEN] = nil
-  if g.rand_percent(g.rogue.exp + g.ring_exp) then
+  if random.rand_percent(g.rogue.exp + g.ring_exp) then
     g.message(g.mesg[228], true)
     return
   end
@@ -66,7 +67,7 @@ function g.trap_player(row, col)
     g.new_level_message = str
   elseif t == g.BEAR_TRAP then
     g.message(str, true)
-    g.bear_trap = g.get_rand(4, 7)
+    g.bear_trap = random.get_rand(4, 7)
   elseif t == g.TELE_TRAP then
     g.mvaddch(g.rogue.row, g.rogue.col, "^")
     g.tele()
@@ -78,7 +79,7 @@ function g.trap_player(row, col)
     end
     if
       not g.sustain_strength
-      and g.rand_percent(40)
+      and random.rand_percent(40)
       and g.rogue.str_current >= 3
     then
       g.rogue.str_current = g.rogue.str_current - 1
@@ -105,28 +106,28 @@ function g.add_traps()
   if g.cur_level <= 2 then
     n = 0
   elseif g.cur_level <= 7 then
-    n = g.get_rand(0, 2)
+    n = random.get_rand(0, 2)
   elseif g.cur_level <= 11 then
-    n = g.get_rand(1, 2)
+    n = random.get_rand(1, 2)
   elseif g.cur_level <= 16 then
-    n = g.get_rand(2, 3)
+    n = random.get_rand(2, 3)
   elseif g.cur_level <= 21 then
-    n = g.get_rand(2, 4)
+    n = random.get_rand(2, 4)
   elseif g.cur_level <= (g.AMULET_LEVEL + 2) then
-    n = g.get_rand(3, 5)
+    n = random.get_rand(3, 5)
   else
-    n = g.get_rand(5, g.MAX_TRAPS)
+    n = random.get_rand(5, g.MAX_TRAPS)
   end
   for i = 0, n - 1 do
-    g.traps[i].trap_type = g.get_rand(0, (g.TRAPS - 1))
+    g.traps[i].trap_type = random.get_rand(0, (g.TRAPS - 1))
 
     if i == 0 and g.party_room ~= g.NO_ROOM then
       repeat
-        row = g.get_rand(
+        row = random.get_rand(
           (g.rooms[g.party_room].top_row + 1),
           (g.rooms[g.party_room].bottom_row - 1)
         )
-        col = g.get_rand(
+        col = random.get_rand(
           (g.rooms[g.party_room].left_col + 1),
           (g.rooms[g.party_room].right_col - 1)
         )
@@ -219,7 +220,7 @@ function g.search(n, is_auto)
           -- continue
         else
           if g.dungeon[row][col][g.HIDDEN] then
-            if g.rand_percent(17 + (g.rogue.exp + g.ring_exp)) then
+            if random.rand_percent(17 + (g.rogue.exp + g.ring_exp)) then
               g.dungeon[row][col][g.HIDDEN] = nil
               if
                 g.blind == 0

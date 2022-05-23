@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 g.is_wood = {}
@@ -174,7 +175,7 @@ function g.mix_colors()
     g.id_potions[i].title = g.po_color[i]
   end
   for i = 0, g.POTIONS - 1 do
-    local j = g.get_rand(i, g.POTIONS - 1)
+    local j = random.get_rand(i, g.POTIONS - 1)
     g.id_potions[i].title, g.id_potions[j].title =
       g.id_potions[j].title, g.id_potions[i].title
   end
@@ -182,11 +183,11 @@ end
 
 function g.make_scroll_titles()
   for i = 0, g.SCROLS - 1 do
-    local sylls = g.get_rand(2, 5)
+    local sylls = random.get_rand(2, 5)
     g.id_scrolls[i].title = g.mesg[535]
     local len = util.strwidth(g.id_scrolls[i].title)
     for j = 0, sylls - 1 do
-      local s = g.get_rand(1, g.MAXSYLLABLES - 1)
+      local s = random.get_rand(1, g.MAXSYLLABLES - 1)
       local n = util.strwidth(syllables[s])
       if len + n - 1 >= g.MAX_TITLE_LENGTH - 2 then
         break
@@ -408,7 +409,7 @@ function g.get_wand_and_ring_materials()
   local used = {}
   for i = 0, g.WANDS - 1 do
     repeat
-      j = g.get_rand(0, g.WAND_MATERIALS - 1)
+      j = random.get_rand(0, g.WAND_MATERIALS - 1)
     until not used[j]
     used[j] = true
     g.id_wands[i].title = wand_materials[j] .. g.mesg[39]
@@ -417,7 +418,7 @@ function g.get_wand_and_ring_materials()
   used = {}
   for i = 0, g.RINGS - 1 do
     repeat
-      j = g.get_rand(0, g.GEMS - 1)
+      j = random.get_rand(0, g.GEMS - 1)
     until not used[j]
     used[j] = true
     g.id_rings[i].title = gems[j] .. g.mesg[40]

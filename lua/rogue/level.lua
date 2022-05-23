@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 g.cur_level = 0
@@ -52,10 +53,10 @@ local function make_room(rn, r1, r2, r3)
   local goto_B = false
   local goto_END = false
   if rn == g.BIG_ROOM then
-    top_row = g.get_rand(g.MIN_ROW, g.MIN_ROW + 5)
-    bottom_row = g.get_rand(g.DROWS - 7, g.DROWS - 2)
-    left_col = g.get_rand(0, 10)
-    right_col = g.get_rand(g.DCOLS - 11, g.DCOLS - 2)
+    top_row = random.get_rand(g.MIN_ROW, g.MIN_ROW + 5)
+    bottom_row = random.get_rand(g.DROWS - 7, g.DROWS - 2)
+    left_col = random.get_rand(0, 10)
+    right_col = random.get_rand(g.DCOLS - 11, g.DCOLS - 2)
     rn = 0
     goto_B = true
     -- goto B
@@ -83,11 +84,11 @@ local function make_room(rn, r1, r2, r3)
       top_row = g.ROW2 + 1
       bottom_row = g.DROWS - 2
     end
-    height = g.get_rand(4, (bottom_row - top_row + 1))
-    width = g.get_rand(7, (right_col - left_col - 2))
+    height = random.get_rand(4, (bottom_row - top_row + 1))
+    width = random.get_rand(7, (right_col - left_col - 2))
 
-    row_offset = g.get_rand(0, ((bottom_row - top_row) - height + 1))
-    col_offset = g.get_rand(0, ((right_col - left_col) - width + 1))
+    row_offset = random.get_rand(0, ((bottom_row - top_row) - height + 1))
+    col_offset = random.get_rand(0, ((right_col - left_col) - width + 1))
 
     top_row = top_row + row_offset
     bottom_row = top_row + height - 1
@@ -95,7 +96,7 @@ local function make_room(rn, r1, r2, r3)
     left_col = left_col + col_offset
     right_col = left_col + width - 1
 
-    if (rn ~= r1) and (rn ~= r2) and (rn ~= r3) and g.rand_percent(40) then
+    if (rn ~= r1) and (rn ~= r2) and (rn ~= r3) and random.rand_percent(40) then
       goto_END = true
       -- goto END
     end
@@ -141,19 +142,19 @@ local function put_door(rm, dir)
   if dir == g.UPWARD or dir == g.DOWN then
     row = (dir == g.UPWARD) and rm.top_row or rm.bottom_row
     repeat
-      col = g.get_rand(rm.left_col + wall_width, rm.right_col - wall_width)
+      col = random.get_rand(rm.left_col + wall_width, rm.right_col - wall_width)
     until g.dungeon[row][col][g.HORWALL] or g.dungeon[row][col][g.TUNNEL]
   elseif dir == g.RIGHT or dir == g.LEFT then
     col = (dir == g.LEFT) and rm.left_col or rm.right_col
     repeat
-      row = g.get_rand(rm.top_row + wall_width, rm.bottom_row - wall_width)
+      row = random.get_rand(rm.top_row + wall_width, rm.bottom_row - wall_width)
     until g.dungeon[row][col][g.VERTWALL] or g.dungeon[row][col][g.TUNNEL]
   end
   if rm.is_room == g.R_ROOM then
     g.dungeon[row][col] = {}
     g.dungeon[row][col][g.DOOR] = g.dungeon_desc[g.DOOR]
   end
-  if (g.cur_level > 2) and g.rand_percent(g.HIDE_PERCENT) then
+  if (g.cur_level > 2) and random.rand_percent(g.HIDE_PERCENT) then
     g.dungeon[row][col][g.HIDDEN] = g.dungeon_desc[g.HIDDEN]
   end
   rm.doors[util.int_div(dir, 2)].door_row = row
@@ -186,8 +187,8 @@ local function hide_boxed_passage(row1, col1, row2, col2, n)
 
       for i = 0, n - 1 do
         for j = 0, 9 do
-          row = g.get_rand(row1 + row_cut, row2 - row_cut)
-          col = g.get_rand(col1 + col_cut, col2 - col_cut)
+          row = random.get_rand(row1 + row_cut, row2 - row_cut)
+          col = random.get_rand(col1 + col_cut, col2 - col_cut)
           if g.dungeon_equals(g.dungeon[row][col], g.TUNNEL) then
             g.dungeon[row][col][g.HIDDEN] = g.dungeon_desc[g.HIDDEN]
             break
@@ -206,7 +207,7 @@ local function draw_simple_passage(row1, col1, row2, col2, dir)
       row1, row2 = row2, row1
       col1, col2 = col2, col1
     end
-    middle = g.get_rand(col1 + 1, col2 - 1)
+    middle = random.get_rand(col1 + 1, col2 - 1)
     for i = col1 + 1, middle - 1 do
       g.dungeon[row1][i] = {}
       g.dungeon[row1][i][g.TUNNEL] = g.dungeon_desc[g.TUNNEL]
@@ -231,7 +232,7 @@ local function draw_simple_passage(row1, col1, row2, col2, dir)
       row1, row2 = row2, row1
       col1, col2 = col2, col1
     end
-    middle = g.get_rand(row1 + 1, row2 - 1)
+    middle = random.get_rand(row1 + 1, row2 - 1)
     for i = row1 + 1, middle - 1 do
       g.dungeon[i][col1] = {}
       g.dungeon[i][col1][g.TUNNEL] = g.dungeon_desc[g.TUNNEL]
@@ -252,7 +253,7 @@ local function draw_simple_passage(row1, col1, row2, col2, dir)
       g.dungeon[i][col2][g.TUNNEL] = g.dungeon_desc[g.TUNNEL]
     end
   end
-  if g.rand_percent(g.HIDE_PERCENT) then
+  if random.rand_percent(g.HIDE_PERCENT) then
     hide_boxed_passage(row1, col1, row2, col2, 1)
   end
 end
@@ -299,7 +300,7 @@ local function connect_rooms(room1, room2)
 
   repeat
     draw_simple_passage(row1, col1, row2, col2, dir)
-  until not g.rand_percent(4)
+  until not random.rand_percent(4)
 
   local dp = g.rooms[room1].doors[util.int_div(dir, 2)]
   dp.oth_room = room2
@@ -348,10 +349,10 @@ local function make_maze(r, c, tr, br, lc, rc)
   g.dungeon[r][c] = {}
   g.dungeon[r][c][g.TUNNEL] = g.dungeon_desc[g.TUNNEL]
 
-  if g.rand_percent(33) then
+  if random.rand_percent(33) then
     for i = 0, 9 do
-      local t1 = g.get_rand(0, 3)
-      local t2 = g.get_rand(0, 3)
+      local t1 = random.get_rand(0, 3)
+      local t2 = random.get_rand(0, 3)
 
       dirs[t1], dirs[t2] = dirs[t2], dirs[t1]
     end
@@ -404,7 +405,7 @@ end
 
 local function add_mazes()
   if g.cur_level > 1 then
-    local start = g.get_rand(0, g.MAXROOMS - 1)
+    local start = random.get_rand(0, g.MAXROOMS - 1)
     local maze_percent = util.int_div((g.cur_level * 5), 4)
 
     if g.cur_level > 15 then
@@ -413,11 +414,11 @@ local function add_mazes()
     for i = 0, g.MAXROOMS - 1 do
       local j = ((start + i) % g.MAXROOMS)
       if g.rooms[j].is_room == g.R_NOTHING then
-        if g.rand_percent(maze_percent) then
+        if random.rand_percent(maze_percent) then
           g.rooms[j].is_room = g.R_MAZE
           make_maze(
-            g.get_rand(g.rooms[j].top_row + 1, g.rooms[j].bottom_row - 1),
-            g.get_rand(g.rooms[j].left_col + 1, g.rooms[j].right_col - 1),
+            random.get_rand(g.rooms[j].top_row + 1, g.rooms[j].bottom_row - 1),
+            random.get_rand(g.rooms[j].left_col + 1, g.rooms[j].right_col - 1),
             g.rooms[j].top_row,
             g.rooms[j].bottom_row,
             g.rooms[j].left_col,
@@ -428,7 +429,7 @@ local function add_mazes()
             g.rooms[j].left_col,
             g.rooms[j].bottom_row,
             g.rooms[j].right_col,
-            g.get_rand(0, 2)
+            random.get_rand(0, 2)
           )
         end
       end
@@ -438,7 +439,7 @@ end
 
 local function mix_random_rooms()
   for i = 0, g.MAXROOMS - 1 do
-    local j = g.get_rand(i, g.MAXROOMS - 1)
+    local j = random.get_rand(i, g.MAXROOMS - 1)
     random_rooms[i], random_rooms[j] = random_rooms[j], random_rooms[i]
   end
 end
@@ -514,8 +515,8 @@ local function fill_it(rn, do_rec_de)
   offsets[3] = -3
 
   for i = 0, 9 do
-    srow = g.get_rand(0, 3)
-    scol = g.get_rand(0, 3)
+    srow = random.get_rand(0, 3)
+    scol = random.get_rand(0, 3)
     local t = offsets[srow]
     offsets[srow] = offsets[scol]
     offsets[scol] = t
@@ -570,7 +571,7 @@ local function fill_it(rn, do_rec_de)
         local continue_flag = false
         if (i < 3) and not did_this then
           did_this = true
-          if g.coin_toss() then
+          if random.coin_toss() then
             continue_flag = true
           end
         end
@@ -594,7 +595,7 @@ local function fill_out_level()
     local rn = random_rooms[i]
     if
       g.rooms[rn].is_room == g.R_NOTHING
-      or (g.rooms[rn].is_room == g.R_CROSS and g.coin_toss())
+      or (g.rooms[rn].is_room == g.R_CROSS and random.coin_toss())
     then
       fill_it(rn, 1)
     end
@@ -611,10 +612,10 @@ function g.make_level()
   if g.cur_level > g.max_level then
     g.max_level = g.cur_level
   end
-  local must_exist1 = g.get_rand(0, 2)
+  local must_exist1 = random.get_rand(0, 2)
   local must_exist2 = 0
   local must_exist3 = 0
-  local vertical = g.coin_toss()
+  local vertical = random.coin_toss()
   if vertical then
     must_exist2 = must_exist1 + 3
     must_exist3 = must_exist2 + 3
@@ -623,7 +624,7 @@ function g.make_level()
     must_exist2 = must_exist1 + 1
     must_exist3 = must_exist2 + 1
   end
-  local big_room = ((g.cur_level == g.party_counter) and g.rand_percent(1))
+  local big_room = ((g.cur_level == g.party_counter) and random.rand_percent(1))
   if big_room then
     make_room(g.BIG_ROOM, 0, 0, 0)
   else
@@ -798,7 +799,7 @@ function g.hp_raise()
   if g.wizard then
     return 10
   else
-    return g.get_rand(3, 10)
+    return random.get_rand(3, 10)
   end
 end
 

@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 
 g.nick_name = ""
 g.score_only = false
@@ -138,7 +139,7 @@ local function player_init()
   obj.what_is = g.WEAPON
   obj.which_kind = g.ARROW
   obj.which_kind_weapon = obj.which_kind
-  obj.quantity = g.get_rand(25, 35)
+  obj.quantity = random.get_rand(25, 35)
   obj.damage = "1d2"
   obj.hit_enchant = 0
   obj.d_enchant = 0
@@ -167,7 +168,7 @@ function g.init(args)
     -- NOTREACHED
   end
 
-  g.srrandom(os.time())
+  random.srrandom(os.time())
 
   g.init_invent()
   g.init_level()
@@ -196,7 +197,7 @@ function g.init(args)
   g.level_objects.next_object = nil
   g.level_monsters.next_object = nil
   player_init()
-  g.party_counter = g.get_rand(1, g.PARTY_TIME)
+  g.party_counter = random.get_rand(1, g.PARTY_TIME)
   g.ring_stats(false)
   g.print_stats(true)
   return false

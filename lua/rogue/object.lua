@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 g.ObjBase = {}
@@ -204,8 +205,8 @@ end
 local function make_party()
   g.party_room = g.gr_room()
 
-  local n = g.rand_percent(99) and g.party_objects(g.party_room) or 11
-  if g.rand_percent(99) then
+  local n = random.rand_percent(99) and g.party_objects(g.party_room) or 11
+  if random.rand_percent(99) then
     g.party_monsters(g.party_room, n)
   end
 end
@@ -215,7 +216,7 @@ local function next_party()
   while (n % g.PARTY_TIME) ~= 0 do
     n = n + 1
   end
-  return g.get_rand((n + 1), (n + g.PARTY_TIME))
+  return random.get_rand((n + 1), (n + g.PARTY_TIME))
 end
 
 local function plant_gold(row, col, is_maze)
@@ -223,7 +224,7 @@ local function plant_gold(row, col, is_maze)
   obj.row = row
   obj.col = col
   obj.what_is = g.GOLD
-  obj.quantity = g.get_rand((2 * g.cur_level), (16 * g.cur_level))
+  obj.quantity = random.get_rand((2 * g.cur_level), (16 * g.cur_level))
   if is_maze then
     obj.quantity = obj.quantity + util.int_div(obj.quantity, 2)
   end
@@ -268,13 +269,13 @@ local function put_gold()
     if not (is_room or is_maze) then
       -- continue
     else
-      if is_maze or g.rand_percent(g.GOLD_PERCENT) then
+      if is_maze or random.rand_percent(g.GOLD_PERCENT) then
         for j = 0, 49 do
-          local row = g.get_rand(
+          local row = random.get_rand(
             g.rooms[i].top_row + 1,
             g.rooms[i].bottom_row - 1
           )
-          local col = g.get_rand(
+          local col = random.get_rand(
             g.rooms[i].left_col + 1,
             g.rooms[i].right_col - 1
           )
@@ -302,8 +303,8 @@ function g.put_objects()
   if g.cur_level < g.max_level then
     return
   end
-  local n = g.coin_toss() and g.get_rand(2, 4) or g.get_rand(3, 5)
-  while g.rand_percent(33) do
+  local n = random.coin_toss() and random.get_rand(2, 4) or random.get_rand(3, 5)
+  while random.rand_percent(33) do
     n = n + 1
   end
   if g.cur_level == g.party_counter then
@@ -390,7 +391,7 @@ local function gr_what_is()
     g.RING,
   }
 
-  local percent = g.get_rand(1, 91)
+  local percent = random.get_rand(1, 91)
   for i = 1, #per do
     if percent <= per[i] then
       return ret[i]
@@ -413,7 +414,7 @@ local function gr_scroll(obj)
     80,
     85,
   }
-  local percent = g.get_rand(0, 85)
+  local percent = random.get_rand(0, 85)
   obj.what_is = g.SCROL
   for i = 1, #per do
     if percent <= per[i] then
@@ -441,7 +442,7 @@ local function gr_potion(obj)
     114,
     118,
   }
-  local percent = g.get_rand(1, 118)
+  local percent = random.get_rand(1, 118)
   obj.what_is = g.POTION
   for i = 1, #per do
     if percent <= per[i] then
@@ -457,21 +458,21 @@ local function gr_weapon(obj, assign_wk)
 
   obj.what_is = g.WEAPON
   if assign_wk then
-    obj.which_kind = g.get_rand(0, g.WEAPONS - 1)
+    obj.which_kind = random.get_rand(0, g.WEAPONS - 1)
     obj.which_kind_weapon = obj.which_kind
   end
   local i = obj.which_kind
   if i == g.ARROW or i == g.DAGGER or i == g.SHURIKEN or i == g.DART then
-    obj.quantity = g.get_rand(3, 15)
-    obj.quiver = g.get_rand(0, 126)
+    obj.quantity = random.get_rand(3, 15)
+    obj.quiver = random.get_rand(0, 126)
   else
     obj.quantity = 1
   end
   obj.hit_enchant = 0
   obj.d_enchant = 0
 
-  local percent = g.get_rand(1, 96)
-  local blessing = g.get_rand(1, 3)
+  local percent = random.get_rand(1, 96)
+  local blessing = random.get_rand(1, 3)
 
   local increment
   if percent <= 16 then
@@ -482,7 +483,7 @@ local function gr_weapon(obj, assign_wk)
   end
   if percent <= 32 then
     for i = 0, blessing - 1 do
-      if g.coin_toss() then
+      if random.coin_toss() then
         obj.hit_enchant = obj.hit_enchant + increment
       else
         obj.d_enchant = obj.d_enchant + increment
@@ -495,7 +496,7 @@ end
 local function gr_armor(obj, assign_wk)
   obj.what_is = g.ARMOR
   if assign_wk then
-    obj.which_kind = g.get_rand(0, g.ARMORS - 1)
+    obj.which_kind = random.get_rand(0, g.ARMORS - 1)
     obj.which_kind_armor = obj.which_kind
   end
   obj.class = obj.which_kind + 2
@@ -505,8 +506,8 @@ local function gr_armor(obj, assign_wk)
   obj.is_protected = false
   obj.d_enchant = 0
 
-  local percent = g.get_rand(1, 100)
-  local blessing = g.get_rand(1, 3)
+  local percent = random.get_rand(1, 100)
+  local blessing = random.get_rand(1, 3)
 
   if percent <= 16 then
     obj.is_cursed = true
@@ -518,21 +519,21 @@ end
 
 local function gr_wand(obj)
   obj.what_is = g.WAND
-  obj.which_kind = g.get_rand(0, g.WANDS - 1)
+  obj.which_kind = random.get_rand(0, g.WANDS - 1)
   obj.which_kind_wand = obj.which_kind
   if obj.which_kind == g.MAGIC_MISSILE then
-    obj.class = g.get_rand(6, 12)
+    obj.class = random.get_rand(6, 12)
   elseif obj.which_kind == g.CANCELLATION then
-    obj.class = g.get_rand(5, 9)
+    obj.class = random.get_rand(5, 9)
   else
-    obj.class = g.get_rand(3, 6)
+    obj.class = random.get_rand(3, 6)
   end
 end
 
 function g.get_food(obj, force_ration)
   obj.what_is = g.FOOD
 
-  if force_ration or g.rand_percent(80) then
+  if force_ration or random.rand_percent(80) then
     obj.which_kind = g.RATION
   else
     obj.which_kind = g.FRUIT

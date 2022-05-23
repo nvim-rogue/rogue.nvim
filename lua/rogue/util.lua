@@ -143,7 +143,7 @@ function M.split(str, sep)
   return ret
 end
 
-function g.msleep(n)
+function M.msleep(n)
   vim.cmd("sleep " .. tostring(n) .. "m")
 end
 

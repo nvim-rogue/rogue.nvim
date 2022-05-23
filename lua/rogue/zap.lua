@@ -1,4 +1,6 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
+local util = require "rogue.util"
 
 g.wizard = false
 
@@ -42,7 +44,7 @@ local function get_missiled_monster(dir, row, col)
     if g.rogue_can_see(row, col) then
       -- if not g.dungeon[row][col][g.MONSTER] then
       g.mvaddch(row, col, "(r(*(r(")
-      g.msleep(50)
+      util.msleep(50)
       -- end
       g.refresh()
     end
@@ -146,7 +148,7 @@ function g.zap_monster(monster, kind)
     tele_away(monster)
   elseif kind == g.CONFUSE_MONSTER then
     monster.m_flags[g.CONFUSED] = g.m_flags_desc[g.CONFUSED]
-    monster.moves_confused = monster.moves_confused + g.get_rand(12, 22)
+    monster.moves_confused = monster.moves_confused + random.get_rand(12, 22)
   elseif kind == g.INVISIBILITY then
     monster.m_flags[g.INVISIBLE] = g.m_flags_desc[g.INVISIBLE]
   elseif kind == g.POLYMORPH then
@@ -155,7 +157,7 @@ function g.zap_monster(monster, kind)
     end
     local nm = monster.next_object
     local tc = monster.trail_char
-    g.gr_monster(monster, g.get_rand(0, g.MONSTER - 1))
+    g.gr_monster(monster, random.get_rand(0, g.MONSTER - 1))
     monster.row = row
     monster.col = col
     monster.next_object = nm
@@ -166,7 +168,7 @@ function g.zap_monster(monster, kind)
   elseif kind == g.PUT_TO_SLEEP then
     monster.m_flags[g.ASLEEP] = g.m_flags_desc[g.ASLEEP]
     monster.m_flags[g.NAPPING] = g.m_flags_desc[g.NAPPING]
-    monster.nap_length = g.get_rand(3, 6)
+    monster.nap_length = random.get_rand(3, 6)
   elseif kind == g.MAGIC_MISSILE then
     g.rogue_hit(monster, true)
   elseif kind == g.CANCELLATION then

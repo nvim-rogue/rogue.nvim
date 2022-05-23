@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local random = require "rogue.random"
 local util = require "rogue.util"
 
 g.hit_message = ""
@@ -40,7 +41,7 @@ function g.mon_hit(monster, other, flame)
     hit_chance = hit_chance - ((g.rogue.exp + g.ring_exp) - g.r_rings)
   end
 
-  if not g.rand_percent(hit_chance) then
+  if not random.rand_percent(hit_chance) then
     if not fight_monster then
       g.hit_message = g.hit_message
         .. string.format(g.mesg[18], (other and other or mn))
@@ -104,7 +105,7 @@ function g.rogue_hit(monster, force_hit)
   if g.wizard then
     hit_chance = hit_chance * 2
   end
-  if not g.rand_percent(hit_chance) then
+  if not random.rand_percent(hit_chance) then
     if not fight_monster then
       g.hit_message = string.format(g.mesg[22], g.nick_name)
     end
@@ -135,7 +136,7 @@ function g.get_damage(ds, r)
     local d = v[2]
     for j = 1, n do
       if r then
-        total = total + g.get_rand(1, d)
+        total = total + random.get_rand(1, d)
       else
         total = total + d
       end

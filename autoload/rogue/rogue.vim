@@ -39,7 +39,6 @@ function! rogue#rogue#main(args)
     execute 'luafile ' . s:FILE_DIR . 'object.lua'
     execute 'luafile ' . s:FILE_DIR . 'pack.lua'
     execute 'luafile ' . s:FILE_DIR . 'play.lua'
-    execute 'luafile ' . s:FILE_DIR . 'random.lua'
     execute 'luafile ' . s:FILE_DIR . 'ring.lua'
     execute 'luafile ' . s:FILE_DIR . 'room.lua'
     execute 'luafile ' . s:FILE_DIR . 'save.lua'
