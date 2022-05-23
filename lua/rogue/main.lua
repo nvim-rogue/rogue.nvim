@@ -37,11 +37,9 @@ local function init_dirs()
   else
     g.game_dir = g.game_dir:gsub("\\", "/")
     g.game_dir = g.game_dir:gsub("~", g.home_dir)
-    if vim then
-      local exists = vim.fn.isdirectory(g.game_dir)
-      if exists == 0 then
-        vim.fn.mkdir(g.game_dir, "p")
-      end
+    local exists = vim.fn.isdirectory(g.game_dir)
+    if exists == 0 then
+      vim.fn.mkdir(g.game_dir, "p")
     end
   end
 
@@ -113,17 +111,15 @@ local function read_mesg()
     g.English = true
   end
 
-  if vim then
-    g.save_encoding = util.get_vim_variable "s:save_encoding"
-    local needs_iconv = util.get_vim_variable "s:needs_iconv"
-    if needs_iconv ~= 0 then
-      g.needs_iconv = true
-      vim.cmd 'let &encoding = "utf-8"'
-      for k, v in pairs(g.mesg) do
-        g.mesg[k] = g.iconv_from_utf8(v)
-      end
-      vim.cmd "let &encoding = s:save_encoding"
+  g.save_encoding = util.get_vim_variable "s:save_encoding"
+  local needs_iconv = util.get_vim_variable "s:needs_iconv"
+  if needs_iconv ~= 0 then
+    g.needs_iconv = true
+    vim.cmd 'let &encoding = "utf-8"'
+    for k, v in pairs(g.mesg) do
+      g.mesg[k] = g.iconv_from_utf8(v)
     end
+    vim.cmd "let &encoding = s:save_encoding"
   end
   return true
 end
@@ -133,11 +129,9 @@ local function main()
     print "Cannot open message file"
     return
   end
-  if vim then
-    if vim.o.columns < g.DCOLS or vim.o.lines < g.DROWS then
-      vim.fn.confirm(g.mesg[14])
-      return
-    end
+  if vim.o.columns < g.DCOLS or vim.o.lines < g.DROWS then
+    vim.fn.confirm(g.mesg[14])
+    return
   end
   local first = true
   g.update_flag = true
@@ -180,32 +174,4 @@ function g.main()
   if not ret and err ~= g.EXIT_SUCCESS then
     error(err)
   end
-end
-
-if not vim then
-  require "const"
-  require "curses"
-  require "debug"
-  require "hit"
-  require "init"
-  require "invent"
-  require "level"
-  require "message"
-  require "monster"
-  require "move"
-  require "object"
-  require "pack"
-  require "play"
-  require "random"
-  require "ring"
-  require "room"
-  require "save"
-  require "score"
-  require "spechit"
-  require "throw"
-  require "trap"
-  require "use"
-  require "util"
-  require "zap"
-  g.main()
 end

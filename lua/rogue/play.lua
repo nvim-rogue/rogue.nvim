@@ -95,9 +95,7 @@ local function identify()
 end
 
 local function doshell()
-  if vim then
-    vim.cmd "sh"
-  end
+  vim.cmd "sh"
 end
 
 function g.play_level()

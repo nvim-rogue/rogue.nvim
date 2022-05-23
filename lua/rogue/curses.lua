@@ -75,9 +75,7 @@ function g.mvaddstr(row, col, str)
 end
 
 function g.refresh()
-  if vim then
-    vim.cmd "normal gg"
-  end
+  vim.cmd "normal gg"
   local update = false
   local done_redraw = false
   for i = 0, g.DROWS - 1 do

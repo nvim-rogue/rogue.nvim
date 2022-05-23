@@ -13,11 +13,7 @@ function g.printf(fmt, ...)
   if not g.DEBUG then
     return
   end
-  if vim then
-    print(string.format(fmt, ...))
-  else
-    io.write(string.format(fmt, ...))
-  end
+  print(string.format(fmt, ...))
 end
 
 function g.msgbox(fmt, ...)

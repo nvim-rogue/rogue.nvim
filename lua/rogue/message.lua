@@ -19,19 +19,11 @@ end
 
 function g.rgetchar()
   local n
-  if vim then
-    n = vim.fn.getchar()
-  else
-    os.execute "stty -echo cbreak"
-    n = string.byte(io.stdin:read(1))
-    os.execute "stty echo -cbreak"
-  end
+  n = vim.fn.getchar()
   local c = ""
   if type(n) == "string" then
-    if vim then
-      if n == vim.api.nvim_replace_termcodes("<BS>", true, true, true) then
-        c = "BS"
-      end
+    if n == vim.api.nvim_replace_termcodes("<BS>", true, true, true) then
+      c = "BS"
     end
   elseif type(n) == "number" then
     if n == 0x1B then
@@ -43,11 +35,7 @@ function g.rgetchar()
         c = "ENTER"
       end
     else
-      if vim then
-        c = vim.fn.nr2char(n)
-      elseif n <= 0x7E then
-        c = string.char(n)
-      end
+      c = vim.fn.nr2char(n)
     end
     if c == "CTRL_D" then
       save_screen()
@@ -210,7 +198,5 @@ function g.clear_stats()
 end
 
 function g.sound_bell()
-  if vim then
-    vim.beep()
-  end
+  vim.beep()
 end
