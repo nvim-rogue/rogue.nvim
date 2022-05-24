@@ -237,23 +237,14 @@ g.print_enum.in_use_flags = {
   [g.ON_RIGHT_HAND] = "ON_RIGHT_HAND",
 }
 function g.ON_EITHER_HAND(in_use_flags)
-  if in_use_flags == g.ON_LEFT_HAND or in_use_flags == g.ON_RIGHT_HAND then
-    return true
-  else
-    return false
-  end
+  return in_use_flags == g.ON_LEFT_HAND or in_use_flags == g.ON_RIGHT_HAND
 end
+
 function g.BEING_USED(in_use_flags)
-  if
-    in_use_flags == g.BEING_WIELDED
+  return in_use_flags == g.BEING_WIELDED
     or in_use_flags == g.BEING_WORN
     or in_use_flags == g.ON_LEFT_HAND
     or in_use_flags == g.ON_RIGHT_HAND
-  then
-    return true
-  else
-    return false
-  end
 end
 
 -- trap_type
@@ -381,7 +372,7 @@ g.m_flags_desc = {
   [g.ALREADY_MOVED] = "ALREADY_MOVED",
 }
 function g.SPECIAL_HIT(m_flags)
-  for k, v in pairs(m_flags) do
+  for k, _ in pairs(m_flags) do
     if
       k == g.RUSTS
       or k == g.HOLDS

@@ -4,17 +4,17 @@ local util = require "rogue.util"
 
 g.ObjBase = {}
 function g.ObjBase.new()
-  local obj = {}
-  obj.o_row = 0 -- o is how many times stuck at o_row, o_col
-  obj.o_col = 0
-  obj.o = 0
-  obj.row = 0 -- current row, col
-  obj.col = 0
-  obj.trow = 0 -- target row, col
-  obj.tcol = 0
-  obj.what_is = 0
-  obj.next_object = nil
-  return obj
+  return {
+    o_row = 0, -- o is how many times stuck at o_row, o_col
+    o_col = 0,
+    o = 0,
+    row = 0, -- current row, col
+    col = 0,
+    trow = 0, -- target row, col
+    tcol = 0,
+    what_is = 0,
+    next_object = nil,
+  }
 end
 
 local Object = {}
@@ -303,7 +303,8 @@ function g.put_objects()
   if g.cur_level < g.max_level then
     return
   end
-  local n = random.coin_toss() and random.get_rand(2, 4) or random.get_rand(3, 5)
+  local n = random.coin_toss() and random.get_rand(2, 4)
+    or random.get_rand(3, 5)
   while random.rand_percent(33) do
     n = n + 1
   end

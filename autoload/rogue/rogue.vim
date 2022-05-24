@@ -47,7 +47,7 @@ function! rogue#rogue#main(args)
     execute 'luafile ' . s:FILE_DIR . 'throw.lua'
     execute 'luafile ' . s:FILE_DIR . 'trap.lua'
     execute 'luafile ' . s:FILE_DIR . 'use.lua'
-    execute 'luafile ' . s:FILE_DIR . 'util.lua'
+    execute 'luafile ' . s:FILE_DIR . 'util/init.lua'
     execute 'luafile ' . s:FILE_DIR . 'zap.lua'
   endif
 

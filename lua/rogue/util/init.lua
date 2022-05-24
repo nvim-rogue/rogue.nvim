@@ -15,7 +15,7 @@ local bit_exists, bit = pcall(require, "bit")
 if bit_exists then
   M.bxor = bit.bxor
 elseif _VERSION >= "Lua 5.3" then
-  M.bxor = require("rogue.lua53").lua53_bxor
+  M.bxor = require "rogue.util.lua53"
 elseif _VERSION >= "Lua 5.2" then
   ---@diagnostic disable-next-line: undefined-global
   M.bxor = bit32.bxor
@@ -62,7 +62,7 @@ local function dump(obj, indent_depth, dumped_table_list, hex_flag)
   local s
   if t == "table" then
     local exists = false
-    for i, v in ipairs(dumped_table_list) do
+    for _, v in ipairs(dumped_table_list) do
       if v == tostring(obj) then
         exists = true
       end
@@ -107,10 +107,10 @@ local function dump(obj, indent_depth, dumped_table_list, hex_flag)
 end
 
 ---@param obj unknown
----@param hex_flag boolean
+---@param hex_flag? boolean
 ---@return string
 function M.dump(obj, hex_flag)
-  return dump(obj, nil, nil, hex_flag)
+  return dump(obj, nil, nil, hex_flag or false)
 end
 
 ---@param dividend number
