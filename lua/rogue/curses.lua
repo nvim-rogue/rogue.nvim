@@ -108,13 +108,7 @@ function g.refresh()
           end
         end
         if g.update_flag or row_str ~= last_row_str[i] then
-          local cmd_str
-          cmd_str = "call setline("
-            .. tostring(i + 1)
-            .. ', "'
-            .. row_str
-            .. '")'
-          vim.cmd(cmd_str)
+          vim.fn.setline(i + 1, row_str)
           last_row_str[i] = row_str
           update = true
         end
