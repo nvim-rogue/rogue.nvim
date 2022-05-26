@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -13,7 +14,7 @@ g.detect_monster = false
 local strange_feeling = ""
 
 function g.init_use()
-  strange_feeling = g.mesg[230]
+  strange_feeling = mesg[230]
 end
 
 -- vanish() does NOT handle a quiver of weapons with more than one
@@ -85,13 +86,13 @@ local function idntfy()
   local ch
   local obj
   repeat
-    ch = g.pack_letter(g.mesg[260], g.ALL_OBJECTS)
+    ch = g.pack_letter(mesg[260], g.ALL_OBJECTS)
     if ch == g.CANCEL then
       return
     end
     obj = g.get_letter_object(ch)
     if not obj then
-      g.message(g.mesg[261])
+      g.message(mesg[261])
       g.message ""
       g.check_message()
     end
@@ -112,17 +113,17 @@ local function idntfy()
 end
 
 function g.eat()
-  local ch = g.pack_letter(g.mesg[262], g.FOOD)
+  local ch = g.pack_letter(mesg[262], g.FOOD)
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[263])
+    g.message(mesg[263])
     return
   end
   if obj.what_is ~= g.FOOD then
-    g.message(g.mesg[264])
+    g.message(mesg[264])
     return
   end
   local moves
@@ -130,16 +131,16 @@ function g.eat()
     moves = random.get_rand(900, 1100)
     if obj.which_kind == g.RATION then
       if random.get_rand(1, 10) == 1 then
-        g.message(g.mesg[265])
+        g.message(mesg[265])
       else
-        g.message(g.mesg[266])
+        g.message(mesg[266])
       end
     else
-      g.message(string.format(g.mesg[267], g.fruit))
+      g.message(string.format(mesg[267], g.fruit))
     end
   else
     moves = random.get_rand(700, 900)
-    g.message(g.mesg[268])
+    g.message(mesg[268])
     g.add_exp(2, true)
   end
   g.rogue.moves_left = util.int_div(g.rogue.moves_left, 3)
@@ -175,11 +176,11 @@ local function hold_monster()
     end
   end
   if mcount == 0 then
-    g.message(g.mesg[269])
+    g.message(mesg[269])
   elseif mcount == 1 then
-    g.message(g.mesg[270])
+    g.message(mesg[270])
   else
-    g.message(g.mesg[271])
+    g.message(mesg[271])
   end
 end
 
@@ -233,12 +234,12 @@ end
 function g.unhallucinate()
   g.halluc = 0
   g.relight()
-  g.message(g.mesg[272], true)
+  g.message(mesg[272], true)
 end
 
 function g.unblind()
   g.blind = 0
-  g.message(g.mesg[273], true)
+  g.message(mesg[273], true)
   g.relight()
   if g.halluc > 0 then
     g.hallucinate()
@@ -270,7 +271,7 @@ end
 
 local function go_blind()
   if g.blind == 0 then
-    g.message(g.mesg[274])
+    g.message(mesg[274])
   end
   g.blind = g.blind + random.get_rand(500, 800)
 
@@ -295,7 +296,7 @@ local function get_ench_color()
   if g.halluc > 0 then
     return g.id_potions[random.get_rand(0, g.POTIONS - 1)].title
   end
-  return g.mesg[275]
+  return mesg[275]
 end
 
 function g.confuse()
@@ -305,9 +306,9 @@ end
 function g.unconfuse()
   g.confused = 0
   if g.halluc > 0 then
-    g.message(g.mesg[276], true)
+    g.message(mesg[276], true)
   else
-    g.message(g.mesg[277], true)
+    g.message(mesg[277], true)
   end
 end
 
@@ -321,34 +322,34 @@ local function uncurse_all()
 end
 
 function g.quaff()
-  local ch = g.pack_letter(g.mesg[231], g.POTION)
+  local ch = g.pack_letter(mesg[231], g.POTION)
 
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[232])
+    g.message(mesg[232])
     return
   end
   if obj.what_is ~= g.POTION then
-    g.message(g.mesg[233])
+    g.message(mesg[233])
     return
   end
   if obj.which_kind == g.INCREASE_STRENGTH then
-    g.message(g.mesg[234])
+    g.message(mesg[234])
     g.rogue.str_current = g.rogue.str_current + 1
     if g.rogue.str_current > g.rogue.str_max then
       g.rogue.str_max = g.rogue.str_current
     end
   elseif obj.which_kind == g.RESTORE_STRENGTH then
     g.rogue.str_current = g.rogue.str_max
-    g.message(g.mesg[235])
+    g.message(mesg[235])
   elseif obj.which_kind == g.HEALING then
-    g.message(g.mesg[236])
+    g.message(mesg[236])
     potion_heal(false)
   elseif obj.which_kind == g.EXTRA_HEALING then
-    g.message(g.mesg[237])
+    g.message(mesg[237])
     potion_heal(true)
   elseif obj.which_kind == g.POISON then
     if not g.sustain_strength then
@@ -357,7 +358,7 @@ function g.quaff()
         g.rogue.str_current = 1
       end
     end
-    g.message(g.mesg[238])
+    g.message(mesg[238])
     if g.halluc > 0 then
       g.unhallucinate()
     end
@@ -367,7 +368,7 @@ function g.quaff()
   elseif obj.which_kind == g.BLINDNESS then
     go_blind()
   elseif obj.which_kind == g.HALLUCINATION then
-    g.message(g.mesg[239])
+    g.message(mesg[239])
     g.halluc = g.halluc + random.get_rand(500, 800)
   elseif obj.which_kind == g.DETECT_MONSTER then
     g.show_monsters()
@@ -383,21 +384,21 @@ function g.quaff()
       g.message(strange_feeling)
     end
   elseif obj.which_kind == g.CONFUSION then
-    g.message((g.halluc > 0) and g.mesg[240] or g.mesg[241])
+    g.message((g.halluc > 0) and mesg[240] or mesg[241])
     g.confuse()
   elseif obj.which_kind == g.LEVITATION then
-    g.message(g.mesg[242])
+    g.message(mesg[242])
     g.levitate = g.levitate + random.get_rand(15, 30)
     g.bear_trap = 0
     g.being_held = false
   elseif obj.which_kind == g.HASTE_SELF then
-    g.message(g.mesg[243])
+    g.message(mesg[243])
     g.haste_self = g.haste_self + random.get_rand(11, 21)
     if (g.haste_self % 2) == 0 then
       g.haste_self = g.haste_self + 1
     end
   elseif obj.which_kind == g.SEE_INVISIBLE then
-    g.message(string.format(g.mesg[244], g.fruit))
+    g.message(string.format(mesg[244], g.fruit))
     if g.blind > 0 then
       g.unblind()
     end
@@ -410,38 +411,38 @@ function g.quaff()
 end
 
 function g.read_scroll()
-  local ch = g.pack_letter(g.mesg[245], g.SCROL)
+  local ch = g.pack_letter(mesg[245], g.SCROL)
 
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[246])
+    g.message(mesg[246])
     return
   end
   if obj.what_is ~= g.SCROL then
-    g.message(g.mesg[247])
+    g.message(mesg[247])
     return
   end
   if obj.which_kind == g.SCARE_MONSTER then
-    g.message(g.mesg[248])
+    g.message(mesg[248])
   elseif obj.which_kind == g.HOLD_MONSTER then
     hold_monster()
   elseif obj.which_kind == g.ENCH_WEAPON then
     if g.rogue.weapon then
       if g.rogue.weapon.what_is == g.WEAPON then
         local msg
-        if not g.English then
+        if not mesg.English then
           msg = string.format(
-            g.mesg[249],
+            mesg[249],
             g.name_of(g.rogue.weapon),
             get_ench_color()
           )
         else
           -- add "s" of the third person singular
           msg = string.format(
-            g.mesg[249],
+            mesg[249],
             g.name_of(g.rogue.weapon),
             ((g.rogue.weapon.quantity <= 1) and "s" or ""),
             get_ench_color()
@@ -456,44 +457,44 @@ function g.read_scroll()
       end
       g.rogue.weapon.is_cursed = false
     else
-      g.message(g.mesg[250])
+      g.message(mesg[250])
     end
   elseif obj.which_kind == g.ENCH_ARMOR then
     if g.rogue.armor then
-      g.message(string.format(g.mesg[251], get_ench_color()))
+      g.message(string.format(mesg[251], get_ench_color()))
       g.rogue.armor.d_enchant = g.rogue.armor.d_enchant + 1
       g.rogue.armor.is_cursed = false
       g.print_stats()
     else
-      g.message(g.mesg[252])
+      g.message(mesg[252])
     end
   elseif obj.which_kind == g.IDENTIFY then
-    g.message(g.mesg[253])
+    g.message(mesg[253])
     obj.identified = true
     g.id_scrolls[obj.which_kind].id_status = g.IDENTIFIED
     idntfy()
   elseif obj.which_kind == g.TELEPORT then
     g.tele()
   elseif obj.which_kind == g.SLEEP then
-    g.message(g.mesg[254])
+    g.message(mesg[254])
     g.take_a_nap()
   elseif obj.which_kind == g.PROTECT_ARMOR then
     if g.rogue.armor then
-      g.message(g.mesg[255])
+      g.message(mesg[255])
       g.rogue.armor.is_protected = true
       g.rogue.armor.is_cursed = false
     else
-      g.message(g.mesg[256])
+      g.message(mesg[256])
     end
   elseif obj.which_kind == g.REMOVE_CURSE then
-    g.message((g.halluc == 0) and g.mesg[257] or g.mesg[258])
+    g.message((g.halluc == 0) and mesg[257] or mesg[258])
     uncurse_all()
   elseif obj.which_kind == g.CREATE_MONSTER then
     g.create_monster()
   elseif obj.which_kind == g.AGGRAVATE_MONSTER then
     g.aggravate()
   elseif obj.which_kind == g.MAGIC_MAPPING then
-    g.message(g.mesg[259])
+    g.message(mesg[259])
     g.draw_magic_map()
   end
   g.id_scrolls[obj.which_kind].id_status = g.IDENTIFIED

@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -67,14 +68,14 @@ local function throw_at_monster(monster, weapon)
   end
   local t = weapon.quantity
   weapon.quantity = 1
-  g.hit_message = string.format(g.mesg[212], g.name_of(weapon))
+  g.hit_message = string.format(mesg[212], g.name_of(weapon))
   weapon.quantity = t
 
   if not random.rand_percent(hit_chance) then
-    g.hit_message = g.hit_message .. g.mesg[213]
+    g.hit_message = g.hit_message .. mesg[213]
     return false
   end
-  g.hit_message = g.hit_message .. g.mesg[214]
+  g.hit_message = g.hit_message .. mesg[214]
   if weapon.what_is == g.WAND and random.rand_percent(75) then
     g.zap_monster(monster, weapon.which_kind)
   elseif weapon.what_is == g.POTION then
@@ -198,7 +199,7 @@ local function flop_weapon(weapon, row, col)
   else
     local t = weapon.quantity
     weapon.quantity = 1
-    local msg = string.format(g.mesg[215], g.name_of(weapon))
+    local msg = string.format(mesg[215], g.name_of(weapon))
     weapon.quantity = t
     g.message(msg)
   end
@@ -209,7 +210,7 @@ function g.throw()
   if dir == g.CANCEL then
     return
   end
-  local wch = g.pack_letter(g.mesg[210], g.WEAPON)
+  local wch = g.pack_letter(mesg[210], g.WEAPON)
   if wch == g.CANCEL then
     return
   end
@@ -217,7 +218,7 @@ function g.throw()
 
   local weapon = g.get_letter_object(wch)
   if not weapon then
-    g.message(g.mesg[211])
+    g.message(mesg[211])
     return
   end
   if g.BEING_USED(weapon.in_use_flags) and weapon.is_cursed then

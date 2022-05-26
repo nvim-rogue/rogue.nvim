@@ -5,6 +5,7 @@ end
 
 Rogue = {}
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local util = require "rogue.util"
 
 g.version = "1.0.2"
@@ -51,86 +52,13 @@ local function init_dirs()
   end
 end
 
-g.mesg = {}
-g.JAPAN = true
-
-local function read_mesg_file(fname)
-  local mesg_file = io.open(fname, "r")
-  if not mesg_file then
-    return false
-  end
-  for line in mesg_file:lines() do
-    local num, msg = line:match '^(%d+)%s*"([^"]*)"'
-    if num then
-      num = tonumber(num)
-      if not g.mesg[num] then
-        g.mesg[num] = msg
-      end
-    end
-  end
-  mesg_file:close()
-  return true
-end
-
-local function read_mesg()
-  g.mesg = {}
-
-  local file_dir = util.get_vim_variable "s:FILE_DIR"
-  local mesg_fname = vim.g["rogue#message"]
-  if type(mesg_fname) == "string" and mesg_fname ~= "" then
-    mesg_fname = g.expand_fname(mesg_fname, file_dir)
-    read_mesg_file(mesg_fname)
-  end
-
-  local japanese = vim.g["rogue#japanese"]
-  local lang = vim.v.lang
-  if type(japanese) == "number" then
-    if japanese ~= 0 then
-      g.JAPAN = true
-    else
-      g.JAPAN = false
-    end
-  elseif lang:match "ja" then
-    g.JAPAN = true
-  else
-    g.JAPAN = false
-  end
-  local default_f
-  if g.JAPAN then
-    default_f = "mesg"
-  else
-    default_f = "mesg_E"
-  end
-
-  local ret = read_mesg_file(file_dir .. default_f)
-  if not ret then
-    return false
-  end
-
-  if not g.JAPAN and g.mesg[1]:find "English" then
-    g.English = true
-  end
-
-  g.save_encoding = util.get_vim_variable "s:save_encoding"
-  local needs_iconv = util.get_vim_variable "s:needs_iconv"
-  if needs_iconv ~= 0 then
-    g.needs_iconv = true
-    vim.cmd 'let &encoding = "utf-8"'
-    for k, v in pairs(g.mesg) do
-      g.mesg[k] = g.iconv_from_utf8(v)
-    end
-    vim.cmd "let &encoding = s:save_encoding"
-  end
-  return true
-end
-
 local function main()
-  if not read_mesg() then
+  if not mesg[1] then
     print "Cannot open message file"
     return
   end
   if vim.o.columns < g.DCOLS or vim.o.lines < g.DROWS then
-    vim.fn.confirm(g.mesg[14])
+    vim.fn.confirm(mesg[14])
     return
   end
   local first = true
@@ -156,7 +84,7 @@ local function main()
     g.put_player(g.party_room)
     g.print_stats()
     if first then
-      g.message(string.format(g.mesg[10], g.nick_name))
+      g.message(string.format(mesg[10], g.nick_name))
       first = false
     end
     g.refresh()

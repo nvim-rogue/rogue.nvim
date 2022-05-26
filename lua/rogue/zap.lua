@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -63,7 +64,7 @@ function g.zapp()
   if dir == g.CANCEL then
     return
   end
-  local wch = g.pack_letter(g.mesg[278], g.WAND)
+  local wch = g.pack_letter(mesg[278], g.WAND)
   if wch == g.CANCEL then
     return
   end
@@ -71,15 +72,15 @@ function g.zapp()
 
   local wand = g.get_letter_object(wch)
   if not wand then
-    g.message(g.mesg[279])
+    g.message(mesg[279])
     return
   end
   if wand.what_is ~= g.WAND then
-    g.message(g.mesg[280])
+    g.message(mesg[280])
     return
   end
   if wand.class <= 0 then
-    g.message(g.mesg[281])
+    g.message(mesg[281])
   else
     wand.class = wand.class - 1
     local row = g.rogue.row
@@ -194,27 +195,27 @@ function g.zap_monster(monster, kind)
     monster.m_flags[g.DRAINS_LIFE] = nil
     monster.m_flags[g.DROPS_LEVEL] = nil
   elseif kind == g.DO_NOTHING then
-    g.message(g.mesg[282])
+    g.message(mesg[282])
   end
 end
 
 function g.wizardize()
   if g.wizard then
     g.wizard = false
-    g.message(g.mesg[497])
+    g.message(mesg[497])
     return
   end
-  local buf = g.get_input_line(g.mesg[498], "", "", false, false)
+  local buf = g.get_input_line(mesg[498], "", "", false, false)
   if buf == "" then
     return
   end
   g.xxx(true)
   buf = g.xxxx(buf)
   if buf == wiz_passwd then
-    g.message(g.mesg[499])
+    g.message(mesg[499])
     g.wizard = true
     g.score_only = true
   else
-    g.message(g.mesg[500])
+    g.message(mesg[500])
   end
 end

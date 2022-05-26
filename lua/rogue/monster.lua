@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -42,32 +43,32 @@ end
 
 function g.init_monster()
   g.m_names = {
-    [0] = g.mesg[307],
-    g.mesg[308],
-    g.mesg[309],
-    g.mesg[310],
-    g.mesg[311],
-    g.mesg[312],
-    g.mesg[313],
-    g.mesg[314],
-    g.mesg[315],
-    g.mesg[316],
-    g.mesg[317],
-    g.mesg[318],
-    g.mesg[319],
-    g.mesg[320],
-    g.mesg[321],
-    g.mesg[322],
-    g.mesg[323],
-    g.mesg[324],
-    g.mesg[325],
-    g.mesg[326],
-    g.mesg[327],
-    g.mesg[328],
-    g.mesg[329],
-    g.mesg[330],
-    g.mesg[331],
-    g.mesg[332],
+    [0] = mesg[307],
+    mesg[308],
+    mesg[309],
+    mesg[310],
+    mesg[311],
+    mesg[312],
+    mesg[313],
+    mesg[314],
+    mesg[315],
+    mesg[316],
+    mesg[317],
+    mesg[318],
+    mesg[319],
+    mesg[320],
+    mesg[321],
+    mesg[322],
+    mesg[323],
+    mesg[324],
+    mesg[325],
+    mesg[326],
+    mesg[327],
+    mesg[328],
+    mesg[329],
+    mesg[330],
+    mesg[331],
+    mesg[332],
   }
   g.mon_tab[0] = Monster.new("0d0", 25, "A", 20, 9, 18, 100, 0, 0, g.m_names[0])
   g.mon_tab[1] = Monster.new("1d3", 10, "B", 2, 1, 8, 60, 0, 0, g.m_names[1])
@@ -966,7 +967,7 @@ function g.mon_name(monster)
       and not (g.detect_monster or g.see_invisible or g.r_see_invisible)
     )
   then
-    return g.mesg[63]
+    return mesg[63]
   end
   if g.halluc > 0 then
     return g.m_names[random.get_rand(0, 25)]
@@ -1073,7 +1074,7 @@ function g.create_monster()
       g.wake_up(monster)
     end
   else
-    g.message(g.mesg[64])
+    g.message(mesg[64])
   end
 end
 
@@ -1096,7 +1097,7 @@ function g.gr_obj_char()
 end
 
 function g.aggravate()
-  g.message(g.mesg[65])
+  g.message(mesg[65])
   local monster = g.level_monsters.next_object
 
   while monster do

@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 
 g.nick_name = ""
@@ -16,8 +17,8 @@ local function set_nick_name()
     or os.getenv "FIGHTER"
     or os.getenv "USER"
     or os.getenv "USERNAME"
-  local default_name = g.mesg[542]
-  vim.ui.input({ prompt = g.mesg[13], default = default_name }, function(input)
+  local default_name = mesg[542]
+  vim.ui.input({ prompt = mesg[13], default = default_name }, function(input)
     if input == "" then
       g.nick_name = default_name
     else
@@ -38,7 +39,7 @@ local function do_args(args)
       break
     elseif args[i] == "--resume" then
       -- failed to resume
-      g.message(g.mesg[543])
+      g.message(mesg[543])
       break
     else
       rest_file = args[i]

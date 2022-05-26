@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -74,131 +75,131 @@ g.id_rings = {}
 
 function g.init_object()
   g.rogue = Fighter.new()
-  g.fruit = g.mesg[333]
+  g.fruit = mesg[333]
   g.po_color = {
-    [0] = g.mesg[334],
-    g.mesg[335],
-    g.mesg[336],
-    g.mesg[337],
-    g.mesg[338],
-    g.mesg[339],
-    g.mesg[340],
-    g.mesg[341],
-    g.mesg[342],
-    g.mesg[343],
-    g.mesg[344],
-    g.mesg[345],
-    g.mesg[346],
-    g.mesg[347],
+    [0] = mesg[334],
+    mesg[335],
+    mesg[336],
+    mesg[337],
+    mesg[338],
+    mesg[339],
+    mesg[340],
+    mesg[341],
+    mesg[342],
+    mesg[343],
+    mesg[344],
+    mesg[345],
+    mesg[346],
+    mesg[347],
   }
   g.id_potions = {
-    [0] = { value = 100, title = "", real = g.mesg[348], id_status = 0 },
-    { value = 250, title = "", real = g.mesg[349], id_status = 0 },
-    { value = 100, title = "", real = g.mesg[350], id_status = 0 },
-    { value = 200, title = "", real = g.mesg[351], id_status = 0 },
-    { value = 10, title = "", real = g.mesg[352], id_status = 0 },
-    { value = 300, title = "", real = g.mesg[353], id_status = 0 },
-    { value = 10, title = "", real = g.mesg[354], id_status = 0 },
-    { value = 25, title = "", real = g.mesg[355], id_status = 0 },
-    { value = 100, title = "", real = g.mesg[356], id_status = 0 },
-    { value = 100, title = "", real = g.mesg[357], id_status = 0 },
-    { value = 10, title = "", real = g.mesg[358], id_status = 0 },
-    { value = 80, title = "", real = g.mesg[359], id_status = 0 },
-    { value = 150, title = "", real = g.mesg[360], id_status = 0 },
-    { value = 145, title = "", real = g.mesg[361], id_status = 0 },
+    [0] = { value = 100, title = "", real = mesg[348], id_status = 0 },
+    { value = 250, title = "", real = mesg[349], id_status = 0 },
+    { value = 100, title = "", real = mesg[350], id_status = 0 },
+    { value = 200, title = "", real = mesg[351], id_status = 0 },
+    { value = 10, title = "", real = mesg[352], id_status = 0 },
+    { value = 300, title = "", real = mesg[353], id_status = 0 },
+    { value = 10, title = "", real = mesg[354], id_status = 0 },
+    { value = 25, title = "", real = mesg[355], id_status = 0 },
+    { value = 100, title = "", real = mesg[356], id_status = 0 },
+    { value = 100, title = "", real = mesg[357], id_status = 0 },
+    { value = 10, title = "", real = mesg[358], id_status = 0 },
+    { value = 80, title = "", real = mesg[359], id_status = 0 },
+    { value = 150, title = "", real = mesg[360], id_status = 0 },
+    { value = 145, title = "", real = mesg[361], id_status = 0 },
   }
   g.id_scrolls = {
-    [0] = { value = 505, title = "", real = g.mesg[362], id_status = 0 },
-    { value = 200, title = "", real = g.mesg[363], id_status = 0 },
-    { value = 235, title = "", real = g.mesg[364], id_status = 0 },
-    { value = 235, title = "", real = g.mesg[365], id_status = 0 },
-    { value = 175, title = "", real = g.mesg[366], id_status = 0 },
-    { value = 190, title = "", real = g.mesg[367], id_status = 0 },
-    { value = 25, title = "", real = g.mesg[368], id_status = 0 },
-    { value = 610, title = "", real = g.mesg[369], id_status = 0 },
-    { value = 210, title = "", real = g.mesg[370], id_status = 0 },
-    { value = 100, title = "", real = g.mesg[371], id_status = 0 },
-    { value = 25, title = "", real = g.mesg[372], id_status = 0 },
-    { value = 180, title = "", real = g.mesg[373], id_status = 0 },
+    [0] = { value = 505, title = "", real = mesg[362], id_status = 0 },
+    { value = 200, title = "", real = mesg[363], id_status = 0 },
+    { value = 235, title = "", real = mesg[364], id_status = 0 },
+    { value = 235, title = "", real = mesg[365], id_status = 0 },
+    { value = 175, title = "", real = mesg[366], id_status = 0 },
+    { value = 190, title = "", real = mesg[367], id_status = 0 },
+    { value = 25, title = "", real = mesg[368], id_status = 0 },
+    { value = 610, title = "", real = mesg[369], id_status = 0 },
+    { value = 210, title = "", real = mesg[370], id_status = 0 },
+    { value = 100, title = "", real = mesg[371], id_status = 0 },
+    { value = 25, title = "", real = mesg[372], id_status = 0 },
+    { value = 180, title = "", real = mesg[373], id_status = 0 },
   }
   g.id_weapons = {
-    [0] = { value = 150, title = g.mesg[374], real = "", id_status = 0 },
-    { value = 8, title = g.mesg[375], real = "", id_status = 0 },
-    { value = 15, title = g.mesg[376], real = "", id_status = 0 },
-    { value = 27, title = g.mesg[377], real = "", id_status = 0 },
-    { value = 35, title = g.mesg[378], real = "", id_status = 0 },
-    { value = 360, title = g.mesg[379], real = "", id_status = 0 },
-    { value = 470, title = g.mesg[380], real = "", id_status = 0 },
-    { value = 580, title = g.mesg[381], real = "", id_status = 0 },
+    [0] = { value = 150, title = mesg[374], real = "", id_status = 0 },
+    { value = 8, title = mesg[375], real = "", id_status = 0 },
+    { value = 15, title = mesg[376], real = "", id_status = 0 },
+    { value = 27, title = mesg[377], real = "", id_status = 0 },
+    { value = 35, title = mesg[378], real = "", id_status = 0 },
+    { value = 360, title = mesg[379], real = "", id_status = 0 },
+    { value = 470, title = mesg[380], real = "", id_status = 0 },
+    { value = 580, title = mesg[381], real = "", id_status = 0 },
   }
   g.id_armors = {
     [0] = {
       value = 300,
-      title = g.mesg[382],
+      title = mesg[382],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
     {
       value = 300,
-      title = g.mesg[383],
+      title = mesg[383],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
     {
       value = 400,
-      title = g.mesg[384],
+      title = mesg[384],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
     {
       value = 500,
-      title = g.mesg[385],
+      title = mesg[385],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
     {
       value = 600,
-      title = g.mesg[386],
+      title = mesg[386],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
     {
       value = 600,
-      title = g.mesg[387],
+      title = mesg[387],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
     {
       value = 700,
-      title = g.mesg[388],
+      title = mesg[388],
       real = "",
       id_status = g.UNIDENTIFIED,
     },
   }
   g.id_wands = {
-    [0] = { value = 25, title = "", real = g.mesg[389], id_status = 0 },
-    { value = 50, title = "", real = g.mesg[390], id_status = 0 },
-    { value = 45, title = "", real = g.mesg[391], id_status = 0 },
-    { value = 8, title = "", real = g.mesg[392], id_status = 0 },
-    { value = 55, title = "", real = g.mesg[393], id_status = 0 },
-    { value = 2, title = "", real = g.mesg[394], id_status = 0 },
-    { value = 25, title = "", real = g.mesg[395], id_status = 0 },
-    { value = 20, title = "", real = g.mesg[396], id_status = 0 },
-    { value = 20, title = "", real = g.mesg[397], id_status = 0 },
-    { value = 0, title = "", real = g.mesg[398], id_status = 0 },
+    [0] = { value = 25, title = "", real = mesg[389], id_status = 0 },
+    { value = 50, title = "", real = mesg[390], id_status = 0 },
+    { value = 45, title = "", real = mesg[391], id_status = 0 },
+    { value = 8, title = "", real = mesg[392], id_status = 0 },
+    { value = 55, title = "", real = mesg[393], id_status = 0 },
+    { value = 2, title = "", real = mesg[394], id_status = 0 },
+    { value = 25, title = "", real = mesg[395], id_status = 0 },
+    { value = 20, title = "", real = mesg[396], id_status = 0 },
+    { value = 20, title = "", real = mesg[397], id_status = 0 },
+    { value = 0, title = "", real = mesg[398], id_status = 0 },
   }
   g.id_rings = {
-    [0] = { value = 250, title = "", real = g.mesg[399], id_status = 0 },
-    { value = 100, title = "", real = g.mesg[400], id_status = 0 },
-    { value = 255, title = "", real = g.mesg[401], id_status = 0 },
-    { value = 295, title = "", real = g.mesg[402], id_status = 0 },
-    { value = 200, title = "", real = g.mesg[403], id_status = 0 },
-    { value = 250, title = "", real = g.mesg[404], id_status = 0 },
-    { value = 250, title = "", real = g.mesg[405], id_status = 0 },
-    { value = 25, title = "", real = g.mesg[406], id_status = 0 },
-    { value = 300, title = "", real = g.mesg[407], id_status = 0 },
-    { value = 290, title = "", real = g.mesg[408], id_status = 0 },
-    { value = 270, title = "", real = g.mesg[409], id_status = 0 },
+    [0] = { value = 250, title = "", real = mesg[399], id_status = 0 },
+    { value = 100, title = "", real = mesg[400], id_status = 0 },
+    { value = 255, title = "", real = mesg[401], id_status = 0 },
+    { value = 295, title = "", real = mesg[402], id_status = 0 },
+    { value = 200, title = "", real = mesg[403], id_status = 0 },
+    { value = 250, title = "", real = mesg[404], id_status = 0 },
+    { value = 250, title = "", real = mesg[405], id_status = 0 },
+    { value = 25, title = "", real = mesg[406], id_status = 0 },
+    { value = 300, title = "", real = mesg[407], id_status = 0 },
+    { value = 290, title = "", real = mesg[408], id_status = 0 },
+    { value = 270, title = "", real = mesg[409], id_status = 0 },
   }
 end
 
@@ -329,20 +330,20 @@ function g.name_of(obj)
     g.AMULET,
   }
   local na = {
-    g.mesg[3],
-    g.mesg[4],
-    g.mesg[5],
-    g.mesg[7],
-    g.mesg[8],
-    g.mesg[9],
+    mesg[3],
+    mesg[4],
+    mesg[5],
+    mesg[7],
+    mesg[8],
+    mesg[9],
   }
-  if not g.JAPAN then
+  if not mesg.JAPAN then
     if obj.what_is == g.WAND then
-      return g.is_wood[obj.which_kind] and g.mesg[6] or g.mesg[5]
+      return g.is_wood[obj.which_kind] and mesg[6] or mesg[5]
     end
   end
   if obj.what_is == g.WEAPON then
-    if not g.English then
+    if not mesg.English then
       return g.id_weapons[obj.which_kind].title
     else
       local bf = g.id_weapons[obj.which_kind].title
@@ -361,11 +362,11 @@ function g.name_of(obj)
     end
   end
   if obj.what_is == g.FOOD then
-    return (obj.which_kind == g.RATION) and g.mesg[2] or g.fruit
+    return (obj.which_kind == g.RATION) and mesg[2] or g.fruit
   end
   for i = 1, #wa do
     if obj.what_is == wa[i] then
-      if not g.English then
+      if not mesg.English then
         return na[i]
       else
         if obj.quantity > 1 then
@@ -377,7 +378,7 @@ function g.name_of(obj)
       end
     end
   end
-  return g.mesg[80]
+  return mesg[80]
 end
 
 local function gr_what_is()
@@ -653,8 +654,8 @@ end
 local function list_object(obj, max)
   local row
   local col
-  local msg = " " .. g.mesg[494]
-  if g.JAPAN then
+  local msg = " " .. mesg[494]
+  if mesg.JAPAN then
     msg = " " .. msg
   end
   local len = util.strwidth(msg)
@@ -681,7 +682,7 @@ local function list_object(obj, max)
   local descs = {}
   local maxlen = len
   for i = 0, max do
-    if g.JAPAN then
+    if mesg.JAPAN then
       descs[i] = string.format(
         " %c) %s%s",
         i + string.byte "a",
@@ -717,10 +718,10 @@ end
 
 function g.new_object_for_wizard()
   if g.pack_count(nil) >= g.MAX_PACK_COUNT then
-    g.message(g.mesg[81])
+    g.message(mesg[81])
     return
   end
-  g.message(g.mesg[82])
+  g.message(mesg[82])
   local ch
   while true do
     ch = g.rgetchar()
@@ -763,8 +764,8 @@ function g.new_object_for_wizard()
 
   if ch ~= "," and ch ~= ":" then
     local buf = string.format(
-      g.mesg[83],
-      (obj.what_is == g.WEAPON) and g.mesg[84] or g.name_of(obj)
+      mesg[83],
+      (obj.what_is == g.WEAPON) and mesg[84] or g.name_of(obj)
     )
     while true do
       g.message(buf)

@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 
 g.m_moves = 0
@@ -13,7 +14,7 @@ local heal_c = 0
 local heal_alt = false
 
 function g.init_move()
-  g.you_can_move_again = g.mesg[66]
+  g.you_can_move_again = mesg[66]
 end
 
 function g.gr_dir()
@@ -47,9 +48,9 @@ function g.one_move_rogue(dirch, pickup)
   if g.being_held or g.bear_trap > 0 then
     if not g.dungeon[row][col][g.MONSTER] then
       if g.being_held then
-        g.message(g.mesg[67], true)
+        g.message(mesg[67], true)
       else
-        g.message(g.mesg[68])
+        g.message(mesg[68])
         g.reg_move()
       end
       return g.MOVE_FAILED
@@ -112,8 +113,8 @@ function g.one_move_rogue(dirch, pickup)
         desc = g.get_desc(obj, true)
         if obj.what_is == g.GOLD then
           g.free_object(obj)
-          if g.JAPAN then
-            desc = desc .. g.mesg[69]
+          if mesg.JAPAN then
+            desc = desc .. mesg[69]
           end
           -- goto NOT_IN_PACK
           g.message(desc, true)
@@ -129,11 +130,11 @@ function g.one_move_rogue(dirch, pickup)
       else
         -- goto MOVE_ON
         obj = g.object_at(g.level_objects, row, col)
-        if g.JAPAN then
+        if mesg.JAPAN then
           desc = g.get_desc(obj, false)
-          desc = desc .. g.mesg[70]
+          desc = desc .. mesg[70]
         else
-          desc = g.mesg[70]
+          desc = mesg[70]
           desc = desc .. g.get_desc(obj, false)
         end
         -- goto NOT_IN_PACK
@@ -144,11 +145,11 @@ function g.one_move_rogue(dirch, pickup)
     else
       -- ::MOVE_ON::
       obj = g.object_at(g.level_objects, row, col)
-      if g.JAPAN then
+      if mesg.JAPAN then
         desc = g.get_desc(obj, false)
-        desc = desc .. g.mesg[70]
+        desc = desc .. mesg[70]
       else
-        desc = g.mesg[70]
+        desc = mesg[70]
         desc = desc .. g.get_desc(obj, false)
       end
       -- goto NOT_IN_PACK
@@ -156,8 +157,8 @@ function g.one_move_rogue(dirch, pickup)
       g.reg_move()
       return g.STOPPED_ON_SOMETHING
     end
-    if g.JAPAN then
-      desc = desc .. g.mesg[69]
+    if mesg.JAPAN then
+      desc = desc .. mesg[69]
     end
     desc = desc .. "(" .. obj.ichar .. ")"
     -- ::NOT_IN_PACK::
@@ -400,19 +401,19 @@ local function check_hunger(messages_only)
   local fainted = false
 
   if g.rogue.moves_left == g.HUNGRY then
-    g.hunger_str = g.mesg[71]
-    g.message(g.mesg[72])
+    g.hunger_str = mesg[71]
+    g.message(mesg[72])
     g.print_stats()
   end
   if g.rogue.moves_left == g.WEAK then
-    g.hunger_str = g.mesg[73]
-    g.message(g.mesg[74], true)
+    g.hunger_str = mesg[73]
+    g.message(mesg[74], true)
     g.print_stats()
   end
   if g.rogue.moves_left <= g.FAINT then
     if g.rogue.moves_left == g.FAINT then
-      g.hunger_str = g.mesg[75]
-      g.message(g.mesg[76], true)
+      g.hunger_str = mesg[75]
+      g.message(mesg[76], true)
       g.print_stats()
     end
     local n = random.get_rand(0, (g.FAINT - g.rogue.moves_left))
@@ -421,7 +422,7 @@ local function check_hunger(messages_only)
       if random.rand_percent(40) then
         g.rogue.moves_left = g.rogue.moves_left + 1
       end
-      g.message(g.mesg[77], true)
+      g.message(mesg[77], true)
       for i = 1, n do
         if random.coin_toss() then
           g.mv_mons()
@@ -548,7 +549,7 @@ function g.reg_move()
   if g.levitate > 0 then
     g.levitate = g.levitate - 1
     if g.levitate == 0 then
-      g.message(g.mesg[78], true)
+      g.message(mesg[78], true)
       if g.dungeon[g.rogue.row][g.rogue.col][g.TRAP] then
         g.trap_player(g.rogue.row, g.rogue.col)
       end
@@ -557,7 +558,7 @@ function g.reg_move()
   if g.haste_self > 0 then
     g.haste_self = g.haste_self - 1
     if g.haste_self == 0 then
-      g.message(g.mesg[79])
+      g.message(mesg[79])
     end
   end
   heal()

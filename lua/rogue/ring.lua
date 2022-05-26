@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 
 local left_or_right
@@ -18,30 +19,30 @@ g.sustain_strength = false
 g.maintain_armor = false
 
 function g.init_ring()
-  left_or_right = g.mesg[158]
-  no_ring = g.mesg[159]
+  left_or_right = mesg[158]
+  no_ring = mesg[159]
 end
 
 function g.put_on_ring()
   if g.r_rings == 2 then
-    g.message(g.mesg[160])
+    g.message(mesg[160])
     return
   end
-  local ch = g.pack_letter(g.mesg[161], g.RING)
+  local ch = g.pack_letter(mesg[161], g.RING)
   if ch == g.CANCEL then
     return
   end
   local ring = g.get_letter_object(ch)
   if not ring then
-    g.message(g.mesg[162])
+    g.message(mesg[162])
     return
   end
   if ring.what_is ~= g.RING then
-    g.message(g.mesg[163])
+    g.message(mesg[163])
     return
   end
   if g.ON_EITHER_HAND(ring.in_use_flags) then
-    g.message(g.mesg[164])
+    g.message(mesg[164])
     return
   end
   if g.r_rings == 1 then
@@ -65,7 +66,7 @@ function g.put_on_ring()
     ((ch == "l") and g.rogue.left_ring) or ((ch == "r") and g.rogue.right_ring)
   then
     g.check_message()
-    g.message(g.mesg[165])
+    g.message(mesg[165])
     return
   end
   g.do_put_on(ring, (ch == "l" and true or false))
@@ -126,10 +127,10 @@ function g.remove_ring()
     else
       g.un_put_on(ring)
       local buf
-      if g.JAPAN then
-        buf = g.get_desc(ring, false) .. g.mesg[166]
+      if mesg.JAPAN then
+        buf = g.get_desc(ring, false) .. mesg[166]
       else
-        buf = g.mesg[166] .. g.get_desc(ring, false)
+        buf = mesg[166] .. g.get_desc(ring, false)
       end
       g.message(buf)
       g.reg_move()
@@ -174,7 +175,7 @@ end
 
 function g.inv_rings()
   if g.r_rings == 0 then
-    g.message(g.mesg[167])
+    g.message(mesg[167])
   else
     if g.rogue.left_ring then
       g.message(g.get_desc(g.rogue.left_ring, true))

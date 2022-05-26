@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 
 g.msg_cleared = true
 g.hunger_str = ""
@@ -54,7 +55,7 @@ function g.message(msg, intrpt)
   end
 
   if not g.msg_cleared then
-    g.mvaddstr(g.MIN_ROW - 1, 0, msg_line .. g.mesg[11])
+    g.mvaddstr(g.MIN_ROW - 1, 0, msg_line .. mesg[11])
     g.refresh()
     g.wait_for_ack()
     g.check_message()
@@ -81,7 +82,7 @@ function g.check_message()
 end
 
 function g.get_direction()
-  g.message(g.mesg[55])
+  g.message(mesg[55])
   while true do
     local dir = g.rgetchar()
     if g.is_direction(dir) then
@@ -168,21 +169,21 @@ function g.print_stats(update_flag)
   local line = ""
   local tmp
   tmp = string.format("%d", g.cur_level)
-  line = line .. g.mesg[56] .. tmp .. string.rep(" ", 3 - #tmp)
+  line = line .. mesg[56] .. tmp .. string.rep(" ", 3 - #tmp)
   tmp = string.format("%d", g.rogue.gold)
-  line = line .. g.mesg[57] .. tmp .. string.rep(" ", 7 - #tmp)
+  line = line .. mesg[57] .. tmp .. string.rep(" ", 7 - #tmp)
   tmp = string.format("%d(%d)", g.rogue.hp_current, g.rogue.hp_max)
-  line = line .. g.mesg[58] .. tmp .. string.rep(" ", 9 - #tmp)
+  line = line .. mesg[58] .. tmp .. string.rep(" ", 9 - #tmp)
   tmp = string.format(
     "%d(%d)",
     g.rogue.str_current + g.add_strength,
     g.rogue.str_max
   )
-  line = line .. g.mesg[59] .. tmp .. string.rep(" ", 7 - #tmp)
+  line = line .. mesg[59] .. tmp .. string.rep(" ", 7 - #tmp)
   tmp = string.format("%d", g.get_armor_class(g.rogue.armor))
-  line = line .. g.mesg[60] .. tmp .. string.rep(" ", 3 - #tmp)
+  line = line .. mesg[60] .. tmp .. string.rep(" ", 3 - #tmp)
   tmp = string.format("%d/%d", g.rogue.exp, g.rogue.exp_points)
-  line = line .. g.mesg[61] .. tmp .. string.rep(" ", 11 - #tmp)
+  line = line .. mesg[61] .. tmp .. string.rep(" ", 11 - #tmp)
   line = line .. g.hunger_str
 
   g.mvaddstr(row, 0, line)

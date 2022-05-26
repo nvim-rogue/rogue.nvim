@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local util = require "rogue.util"
 
 g.save_file = "rogue_vim.save"
@@ -7,7 +8,7 @@ local function save_into_file(fname)
   fname = g.expand_fname(fname, g.game_dir)
   local fp = io.open(fname, "wb")
   if not fp then
-    g.message(g.mesg[503])
+    g.message(mesg[503])
     return
   end
 
@@ -83,7 +84,7 @@ local function save_into_file(fname)
   local ret = fp:write(buf)
   fp:close()
   if not ret then
-    g.message(g.mesg[512])
+    g.message(mesg[512])
     return
   end
 
@@ -91,13 +92,7 @@ local function save_into_file(fname)
 end
 
 function g.save_game()
-  local fname = g.get_input_line(
-    g.mesg[501],
-    g.save_file,
-    g.mesg[502],
-    false,
-    true
-  )
+  local fname = g.get_input_line(mesg[501], g.save_file, mesg[502], false, true)
   if fname == "" then
     return
   end
@@ -110,14 +105,14 @@ function g.restore(fname)
   fname = g.expand_fname(fname, g.game_dir)
   local fp = io.open(fname, "rb")
   if not fp then
-    g.message(g.mesg[504])
+    g.message(mesg[504])
     return false
   end
 
   local buf = fp:read "*a"
   fp:close()
   if not buf then
-    g.message(g.mesg[511])
+    g.message(mesg[511])
     return false
   end
   g.xxx(true)
@@ -125,24 +120,24 @@ function g.restore(fname)
   vim.cmd 'let &encoding = "utf-8"'
   buf = g.iconv_from_utf8(buf)
   vim.cmd "let &encoding = s:save_encoding"
-  local Rogue_copy = assert(util.loadstring("return " .. buf), g.mesg[508])()
+  local Rogue_copy = assert(util.loadstring("return " .. buf), mesg[508])()
 
   if g.home_dir ~= Rogue_copy.home_dir then
-    g.message(g.mesg[506])
+    g.message(mesg[506])
     return false
   end
 
   local saved_time = Rogue_copy.saved_time
   Rogue_copy.saved_time = nil
   if saved_time < vim.fn.getftime(fname) then
-    g.message(g.mesg[509])
+    g.message(mesg[509])
     return false
   end
 
   if not Rogue_copy.wizard then
     local ret = os.remove(fname)
     if not ret then
-      g.message(g.mesg[510])
+      g.message(mesg[510])
       return false
     end
   end

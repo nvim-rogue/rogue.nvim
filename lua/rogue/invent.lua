@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -10,96 +11,96 @@ local syllables = {}
 
 function g.init_invent()
   wand_materials = {
-    [0] = g.mesg[410],
-    g.mesg[411],
-    g.mesg[412],
-    g.mesg[413],
-    g.mesg[414],
-    g.mesg[415],
-    g.mesg[416],
-    g.mesg[417],
-    g.mesg[418],
-    g.mesg[419],
-    g.mesg[420],
-    g.mesg[421],
-    g.mesg[422],
-    g.mesg[423],
-    g.mesg[424],
-    g.mesg[425],
-    g.mesg[426],
-    g.mesg[427],
-    g.mesg[428],
-    g.mesg[429],
-    g.mesg[430],
-    g.mesg[431],
-    g.mesg[432],
-    g.mesg[433],
-    g.mesg[434],
-    g.mesg[435],
-    g.mesg[436],
-    g.mesg[437],
-    g.mesg[438],
-    g.mesg[439],
+    [0] = mesg[410],
+    mesg[411],
+    mesg[412],
+    mesg[413],
+    mesg[414],
+    mesg[415],
+    mesg[416],
+    mesg[417],
+    mesg[418],
+    mesg[419],
+    mesg[420],
+    mesg[421],
+    mesg[422],
+    mesg[423],
+    mesg[424],
+    mesg[425],
+    mesg[426],
+    mesg[427],
+    mesg[428],
+    mesg[429],
+    mesg[430],
+    mesg[431],
+    mesg[432],
+    mesg[433],
+    mesg[434],
+    mesg[435],
+    mesg[436],
+    mesg[437],
+    mesg[438],
+    mesg[439],
   }
 
   gems = {
-    [0] = g.mesg[440],
-    g.mesg[441],
-    g.mesg[442],
-    g.mesg[443],
-    g.mesg[444],
-    g.mesg[445],
-    g.mesg[446],
-    g.mesg[447],
-    g.mesg[448],
-    g.mesg[449],
-    g.mesg[450],
-    g.mesg[451],
-    g.mesg[452],
-    g.mesg[453],
+    [0] = mesg[440],
+    mesg[441],
+    mesg[442],
+    mesg[443],
+    mesg[444],
+    mesg[445],
+    mesg[446],
+    mesg[447],
+    mesg[448],
+    mesg[449],
+    mesg[450],
+    mesg[451],
+    mesg[452],
+    mesg[453],
   }
 
   syllables = {
-    [0] = g.mesg[454],
-    g.mesg[455],
-    g.mesg[456],
-    g.mesg[457],
-    g.mesg[458],
-    g.mesg[459],
-    g.mesg[460],
-    g.mesg[461],
-    g.mesg[462],
-    g.mesg[463],
-    g.mesg[464],
-    g.mesg[465],
-    g.mesg[466],
-    g.mesg[467],
-    g.mesg[468],
-    g.mesg[469],
-    g.mesg[470],
-    g.mesg[471],
-    g.mesg[472],
-    g.mesg[473],
-    g.mesg[474],
-    g.mesg[475],
-    g.mesg[476],
-    g.mesg[477],
-    g.mesg[478],
-    g.mesg[479],
-    g.mesg[480],
-    g.mesg[481],
-    g.mesg[482],
-    g.mesg[483],
-    g.mesg[484],
-    g.mesg[485],
-    g.mesg[486],
-    g.mesg[487],
-    g.mesg[488],
-    g.mesg[489],
-    g.mesg[490],
-    g.mesg[491],
-    g.mesg[492],
-    g.mesg[493],
+    [0] = mesg[454],
+    mesg[455],
+    mesg[456],
+    mesg[457],
+    mesg[458],
+    mesg[459],
+    mesg[460],
+    mesg[461],
+    mesg[462],
+    mesg[463],
+    mesg[464],
+    mesg[465],
+    mesg[466],
+    mesg[467],
+    mesg[468],
+    mesg[469],
+    mesg[470],
+    mesg[471],
+    mesg[472],
+    mesg[473],
+    mesg[474],
+    mesg[475],
+    mesg[476],
+    mesg[477],
+    mesg[478],
+    mesg[479],
+    mesg[480],
+    mesg[481],
+    mesg[482],
+    mesg[483],
+    mesg[484],
+    mesg[485],
+    mesg[486],
+    mesg[487],
+    mesg[488],
+    mesg[489],
+    mesg[490],
+    mesg[491],
+    mesg[492],
+    mesg[493],
   }
 end
 
@@ -110,15 +111,15 @@ end
 function g.inventory(pack, mask)
   local row
   local col
-  local msg = " " .. g.mesg[494]
-  if g.JAPAN then
+  local msg = " " .. mesg[494]
+  if mesg.JAPAN then
     msg = " " .. msg
   end
   local len = util.strwidth(msg)
 
   local obj = pack.next_object
   if not obj then
-    g.message(g.mesg[26])
+    g.message(mesg[26])
     return
   end
 
@@ -184,7 +185,7 @@ end
 function g.make_scroll_titles()
   for i = 0, g.SCROLS - 1 do
     local sylls = random.get_rand(2, 5)
-    g.id_scrolls[i].title = g.mesg[535]
+    g.id_scrolls[i].title = mesg[535]
     local len = util.strwidth(g.id_scrolls[i].title)
     for j = 0, sylls - 1 do
       local s = random.get_rand(1, g.MAXSYLLABLES - 1)
@@ -196,19 +197,19 @@ function g.make_scroll_titles()
       len = len + n
     end
     g.id_scrolls[i].title = g.id_scrolls[i].title:gsub(" $", "")
-    g.id_scrolls[i].title = g.id_scrolls[i].title .. g.mesg[536]
+    g.id_scrolls[i].title = g.id_scrolls[i].title .. mesg[536]
   end
 end
 
 local function get_desc_ANA(obj)
   if obj.in_use_flags == g.BEING_WIELDED then
-    return g.mesg[35]
+    return mesg[35]
   elseif obj.in_use_flags == g.BEING_WORN then
-    return g.mesg[36]
+    return mesg[36]
   elseif obj.in_use_flags == g.ON_LEFT_HAND then
-    return g.mesg[37]
+    return mesg[37]
   elseif obj.in_use_flags == g.ON_RIGHT_HAND then
-    return g.mesg[38]
+    return mesg[38]
   else
     return ""
   end
@@ -225,57 +226,57 @@ end
 function g.get_desc(obj, capitalized)
   local desc = ""
   if obj.what_is == g.AMULET then
-    desc = g.mesg[27]
-    if g.English and not capitalized then
+    desc = mesg[27]
+    if mesg.English and not capitalized then
       desc = capitalize(desc, false)
     end
     return desc
   end
   local item_name = g.name_of(obj)
-  if g.JAPAN then
+  if mesg.JAPAN then
     if obj.what_is == g.GOLD then
       desc = g.znum(obj.quantity)
-      desc = desc .. g.mesg[28]
+      desc = desc .. mesg[28]
       return desc
     end
     if obj.what_is == g.WEAPON and obj.quantity > 1 then
       desc = g.znum(obj.quantity)
-      desc = desc .. g.mesg[29]
+      desc = desc .. mesg[29]
     elseif obj.what_is == g.FOOD then
       desc = g.znum(obj.quantity)
-      desc = desc .. ((obj.which_kind == g.RATION) and g.mesg[30] or g.mesg[31])
+      desc = desc .. ((obj.which_kind == g.RATION) and mesg[30] or mesg[31])
       desc = desc .. item_name
       -- goto ANA
       desc = desc .. get_desc_ANA(obj)
       return desc
     elseif obj.what_is ~= g.ARMOR and obj.quantity > 1 then
       desc = g.znum(obj.quantity)
-      desc = desc .. g.mesg[32]
+      desc = desc .. mesg[32]
     end
   else
     if obj.what_is == g.GOLD then
-      desc = string.format(g.mesg[28], obj.quantity)
+      desc = string.format(mesg[28], obj.quantity)
       return desc
     end
     if obj.what_is ~= g.ARMOR then
-      if g.English and obj.quantity == 1 then
+      if mesg.English and obj.quantity == 1 then
         desc = capitalize("a ", capitalized)
       else
-        desc = string.format(g.mesg[29], obj.quantity)
+        desc = string.format(mesg[29], obj.quantity)
       end
     end
     if obj.what_is == g.FOOD then
       if obj.which_kind == g.RATION then
-        if g.English and obj.quantity == 1 then
-          desc = capitalize(g.mesg[32], capitalized)
+        if mesg.English and obj.quantity == 1 then
+          desc = capitalize(mesg[32], capitalized)
         else
-          desc = string.format(g.mesg[30], obj.quantity)
+          desc = string.format(mesg[30], obj.quantity)
         end
       else
-        if g.English and obj.quantity == 1 then
+        if mesg.English and obj.quantity == 1 then
           desc = capitalize("a ", capitalized)
         else
-          desc = string.format(g.mesg[29], obj.quantity)
+          desc = string.format(mesg[29], obj.quantity)
         end
       end
       desc = desc .. item_name
@@ -307,10 +308,10 @@ function g.get_desc(obj, capitalized)
     -- ::CHECK::
     goto_CHECK_flag = true
     if obj.what_is == g.SCROL then
-      if g.JAPAN then
-        desc = desc .. id_table[obj.which_kind].title .. g.mesg[33] .. item_name
+      if mesg.JAPAN then
+        desc = desc .. id_table[obj.which_kind].title .. mesg[33] .. item_name
       else
-        desc = desc .. item_name .. g.mesg[33] .. id_table[obj.which_kind].title
+        desc = desc .. item_name .. mesg[33] .. id_table[obj.which_kind].title
       end
     elseif obj.what_is == g.POTION then
       desc = desc .. id_table[obj.which_kind].title .. item_name
@@ -343,45 +344,42 @@ function g.get_desc(obj, capitalized)
   if goto_ID_flag or (not goto_CHECK_flag and id_status == g.IDENTIFIED) then
     -- ::ID::
     if obj.what_is == g.SCROL or obj.what_is == g.POTION then
-      if g.JAPAN then
+      if mesg.JAPAN then
         desc = desc .. id_table[obj.which_kind].real .. item_name
       else
         desc = desc .. item_name .. id_table[obj.which_kind].real
       end
     elseif obj.what_is == g.RING then
-      if g.JAPAN then
+      if mesg.JAPAN then
         desc = desc .. id_table[obj.which_kind].real
       end
       if g.wizard or obj.identified then
         if
           obj.which_kind == g.DEXTERITY or obj.which_kind == g.ADD_STRENGTH
         then
-          desc = desc .. g.mesg[537] .. g.znum(obj.class, true) .. g.mesg[538]
+          desc = desc .. mesg[537] .. g.znum(obj.class, true) .. mesg[538]
         end
       end
       desc = desc .. item_name
-      if not g.JAPAN then
+      if not mesg.JAPAN then
         desc = desc .. id_table[obj.which_kind].real
       end
     elseif obj.what_is == g.WAND then
-      if g.JAPAN then
+      if mesg.JAPAN then
         desc = desc .. id_table[obj.which_kind].real .. item_name
       else
         desc = desc .. item_name .. id_table[obj.which_kind].real
       end
       if g.wizard or obj.identified then
-        desc = desc .. g.mesg[539] .. g.znum(obj.class) .. g.mesg[540]
+        desc = desc .. mesg[539] .. g.znum(obj.class) .. mesg[540]
       end
     elseif obj.what_is == g.ARMOR then
-      desc = desc .. g.mesg[537] .. g.znum(obj.d_enchant, true) .. g.mesg[538]
+      desc = desc .. mesg[537] .. g.znum(obj.d_enchant, true) .. mesg[538]
       desc = desc .. id_table[obj.which_kind].title
-      desc = desc
-        .. g.mesg[539]
-        .. g.znum(g.get_armor_class(obj))
-        .. g.mesg[540]
+      desc = desc .. mesg[539] .. g.znum(g.get_armor_class(obj)) .. mesg[540]
     elseif obj.what_is == g.WEAPON then
-      desc = desc .. g.mesg[537] .. g.znum(obj.hit_enchant, true)
-      desc = desc .. g.mesg[541] .. g.znum(obj.d_enchant, true) .. g.mesg[538]
+      desc = desc .. mesg[537] .. g.znum(obj.hit_enchant, true)
+      desc = desc .. mesg[541] .. g.znum(obj.d_enchant, true) .. mesg[538]
       desc = desc .. g.name_of(obj)
     end
   elseif goto_CALL_flag or (not goto_CHECK_flag and id_status == g.CALLED) then
@@ -392,10 +390,10 @@ function g.get_desc(obj, capitalized)
       or obj.what_is == g.WAND
       or obj.what_is == g.RING
     then
-      if g.JAPAN then
-        desc = desc .. id_table[obj.which_kind].title .. g.mesg[34] .. item_name
+      if mesg.JAPAN then
+        desc = desc .. id_table[obj.which_kind].title .. mesg[34] .. item_name
       else
-        desc = desc .. item_name .. g.mesg[34] .. id_table[obj.which_kind].title
+        desc = desc .. item_name .. mesg[34] .. id_table[obj.which_kind].title
       end
     end
   end
@@ -412,7 +410,7 @@ function g.get_wand_and_ring_materials()
       j = random.get_rand(0, g.WAND_MATERIALS - 1)
     until not used[j]
     used[j] = true
-    g.id_wands[i].title = wand_materials[j] .. g.mesg[39]
+    g.id_wands[i].title = wand_materials[j] .. mesg[39]
     g.is_wood[i] = (j > g.MAX_METAL)
   end
   used = {}
@@ -421,19 +419,19 @@ function g.get_wand_and_ring_materials()
       j = random.get_rand(0, g.GEMS - 1)
     until not used[j]
     used[j] = true
-    g.id_rings[i].title = gems[j] .. g.mesg[40]
+    g.id_rings[i].title = gems[j] .. mesg[40]
   end
 end
 
 function g.single_inv(ichar)
-  local ch = (ichar and ichar or g.pack_letter(g.mesg[41], g.ALL_OBJECTS))
+  local ch = (ichar and ichar or g.pack_letter(mesg[41], g.ALL_OBJECTS))
 
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[41])
+    g.message(mesg[41])
     return
   end
   local desc = ch
@@ -464,7 +462,7 @@ function g.inv_weapon()
   if g.rogue.weapon then
     g.single_inv(g.rogue.weapon.ichar)
   else
-    g.message(g.mesg[43])
+    g.message(mesg[43])
   end
 end
 
@@ -472,18 +470,18 @@ function g.inv_armor()
   if g.rogue.armor then
     g.single_inv(g.rogue.armor.ichar)
   else
-    g.message(g.mesg[44])
+    g.message(mesg[44])
   end
 end
 
 function g.discovered()
-  local msg = " " .. g.mesg[494]
-  if g.JAPAN then
+  local msg = " " .. mesg[494]
+  if mesg.JAPAN then
     msg = " " .. msg
   end
   local len = util.strwidth(msg)
 
-  g.message(g.mesg[45])
+  g.message(mesg[45])
   local ch
   while true do
     ch = g.rgetchar()
@@ -504,28 +502,28 @@ function g.discovered()
       type = g.SCROL,
       ch = "?",
       max = g.SCROLS,
-      name = g.mesg[3],
+      name = mesg[3],
       id = g.id_scrolls,
     },
     {
       type = g.POTION,
       ch = "!",
       max = g.POTIONS,
-      name = g.mesg[4],
+      name = mesg[4],
       id = g.id_potions,
     },
     {
       type = g.WAND,
       ch = "/",
       max = g.WANDS,
-      name = g.mesg[5],
+      name = mesg[5],
       id = g.id_wands,
     },
     {
       type = g.RING,
       ch = "=",
       max = g.RINGS,
-      name = g.mesg[8],
+      name = mesg[8],
       id = g.id_rings,
     },
   }
@@ -545,12 +543,12 @@ function g.discovered()
             dp.sub = ""
           else
             dp.real = op.id[i].title
-            dp.sub = g.mesg[34]
+            dp.sub = mesg[34]
           end
 
-          if not g.JAPAN then
+          if not mesg.JAPAN then
             if op.type == g.WAND and g.is_wood[i] then
-              dp.name = g.mesg[6]
+              dp.name = mesg[6]
             end
           end
           found[op.type] = true
@@ -562,7 +560,7 @@ function g.discovered()
         dp.type = op.type
         dp.no = -1
         dp.name = op.name
-        if g.English then
+        if mesg.English then
           -- add "s" of the plural
           dp.name = dp.name:gsub(" ", "s ")
         end
@@ -576,7 +574,7 @@ function g.discovered()
   end
 
   if vim.tbl_isempty(found) then
-    g.message(g.mesg[46])
+    g.message(mesg[46])
     return
   end
 
@@ -591,11 +589,11 @@ function g.discovered()
       if dp.type == 0 then
         g.descs[i] = " "
       elseif dp.no < 0 then
-        g.descs[i] = string.format(g.mesg[47], dp.name)
+        g.descs[i] = string.format(mesg[47], dp.name)
       else
-        if g.JAPAN then
+        if mesg.JAPAN then
           g.descs[i] = "  " .. dp.real .. dp.sub .. dp.name
-        elseif g.English then
+        elseif mesg.English then
           g.descs[i] = " " .. capitalize(dp.name, true) .. dp.real
         else
           g.descs[i] = " " .. dp.name .. dp.real
@@ -637,19 +635,19 @@ end
 
 function g.znum(n, plus)
   local z_num_list = {
-    [0] = g.mesg[523],
-    [1] = g.mesg[524],
-    [2] = g.mesg[525],
-    [3] = g.mesg[526],
-    [4] = g.mesg[527],
-    [5] = g.mesg[528],
-    [6] = g.mesg[529],
-    [7] = g.mesg[530],
-    [8] = g.mesg[531],
-    [9] = g.mesg[532],
+    [0] = mesg[523],
+    [1] = mesg[524],
+    [2] = mesg[525],
+    [3] = mesg[526],
+    [4] = mesg[527],
+    [5] = mesg[528],
+    [6] = mesg[529],
+    [7] = mesg[530],
+    [8] = mesg[531],
+    [9] = mesg[532],
   }
-  local z_num_plus = g.mesg[533]
-  local z_num_minus = g.mesg[534]
+  local z_num_plus = mesg[533]
+  local z_num_minus = mesg[534]
 
   local str = ""
   if plus and n >= 0 then

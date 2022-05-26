@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 
 local Trap = {}
@@ -24,18 +25,18 @@ function g.init_trap()
     g.traps[i] = Trap.new()
   end
   trap_strings = {
-    [0] = g.mesg[216],
-    g.mesg[217],
-    g.mesg[218],
-    g.mesg[219],
-    g.mesg[220],
-    g.mesg[221],
-    g.mesg[222],
-    g.mesg[223],
-    g.mesg[224],
-    g.mesg[225],
-    g.mesg[226],
-    g.mesg[227],
+    [0] = mesg[216],
+    mesg[217],
+    mesg[218],
+    mesg[219],
+    mesg[220],
+    mesg[221],
+    mesg[222],
+    mesg[223],
+    mesg[224],
+    mesg[225],
+    mesg[226],
+    mesg[227],
   }
 end
 
@@ -58,7 +59,7 @@ function g.trap_player(row, col)
   end
   g.dungeon[row][col][g.HIDDEN] = nil
   if random.rand_percent(g.rogue.exp + g.ring_exp) then
-    g.message(g.mesg[228], true)
+    g.message(mesg[228], true)
     return
   end
   local str = trap_strings[(t * 2) + 1]
@@ -168,7 +169,7 @@ function g.id_trap()
     local t = trap_at(row, col)
     g.message(trap_strings[t * 2])
   else
-    g.message(g.mesg[229])
+    g.message(mesg[229])
   end
 end
 

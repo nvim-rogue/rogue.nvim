@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -727,27 +728,27 @@ function g.drop_check()
   end
   if g.dungeon[g.rogue.row][g.rogue.col][g.STAIRS] then
     if g.levitate > 0 then
-      g.message(g.mesg[48])
+      g.message(mesg[48])
       return false
     end
     return true
   end
-  g.message(g.mesg[49])
+  g.message(mesg[49])
   return false
 end
 
 function g.check_up()
   if not g.wizard then
     if not g.dungeon[g.rogue.row][g.rogue.col][g.STAIRS] then
-      g.message(g.mesg[50])
+      g.message(mesg[50])
       return false
     end
     if not g.has_amulet() then
-      g.message(g.mesg[51])
+      g.message(mesg[51])
       return false
     end
   end
-  g.new_level_message = g.mesg[52]
+  g.new_level_message = mesg[52]
   if g.cur_level == 1 then
     g.win()
     -- NOTREACHED
@@ -780,10 +781,10 @@ function g.add_exp(e, promotion)
     g.rogue.exp_points = g.MAX_EXP + 1
   end
   for i = g.rogue.exp + 1, new_exp do
-    if g.JAPAN then
-      g.message(string.format(g.mesg[53], g.znum(i)))
+    if mesg.JAPAN then
+      g.message(string.format(mesg[53], g.znum(i)))
     else
-      g.message(string.format(g.mesg[53], i))
+      g.message(string.format(mesg[53], i))
     end
     if promotion then
       local hp = g.hp_raise()
@@ -819,7 +820,7 @@ function g.show_average_hp()
   end
   g.message(
     string.format(
-      g.mesg[54],
+      mesg[54],
       util.int_div(real_average, 100),
       (real_average % 100),
       util.int_div(effective_average, 100),

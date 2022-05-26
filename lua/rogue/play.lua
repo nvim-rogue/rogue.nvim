@@ -1,34 +1,35 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 
 g.interrupted = false
 g.suspended = false
 
 local function help()
   local help_message = {
-    g.mesg[116],
-    g.mesg[117],
-    g.mesg[118],
-    g.mesg[119],
-    g.mesg[120],
-    g.mesg[121],
-    g.mesg[122],
-    g.mesg[123],
-    g.mesg[124],
-    g.mesg[125],
-    g.mesg[126],
-    g.mesg[127],
-    g.mesg[128],
-    g.mesg[129],
-    g.mesg[130],
-    g.mesg[131],
-    g.mesg[132],
-    g.mesg[133],
-    g.mesg[134],
-    g.mesg[135],
-    g.mesg[136],
-    g.mesg[137],
+    mesg[116],
+    mesg[117],
+    mesg[118],
+    mesg[119],
+    mesg[120],
+    mesg[121],
+    mesg[122],
+    mesg[123],
+    mesg[124],
+    mesg[125],
+    mesg[126],
+    mesg[127],
+    mesg[128],
+    mesg[129],
+    mesg[130],
+    mesg[131],
+    mesg[132],
+    mesg[133],
+    mesg[134],
+    mesg[135],
+    mesg[136],
+    mesg[137],
     " ",
-    g.mesg[494],
+    mesg[494],
   }
 
   for n = 1, #help_message do
@@ -46,26 +47,26 @@ end
 
 local function identify()
   local o_names = {
-    [0] = g.mesg[138],
-    g.mesg[139],
-    g.mesg[140],
-    g.mesg[141],
-    g.mesg[142],
-    g.mesg[143],
-    g.mesg[144],
-    g.mesg[145],
-    g.mesg[146],
-    g.mesg[147],
-    g.mesg[148],
-    g.mesg[149],
-    g.mesg[150],
-    g.mesg[151],
-    g.mesg[152],
-    g.mesg[153],
-    g.mesg[154],
+    [0] = mesg[138],
+    mesg[139],
+    mesg[140],
+    mesg[141],
+    mesg[142],
+    mesg[143],
+    mesg[144],
+    mesg[145],
+    mesg[146],
+    mesg[147],
+    mesg[148],
+    mesg[149],
+    mesg[150],
+    mesg[151],
+    mesg[152],
+    mesg[153],
+    mesg[154],
   }
 
-  g.message(g.mesg[155])
+  g.message(mesg[155])
   local p
   local ch
   while true do
@@ -99,7 +100,7 @@ local function doshell()
 end
 
 function g.play_level()
-  local unknown_command = g.mesg[115]
+  local unknown_command = mesg[115]
   local ch
   local cmd = "."
   local oldcmd
@@ -225,7 +226,7 @@ function g.play_level()
       g.message "Japanese edition: Ver.1.3a (enhanced by ohta@src.ricoh.co.jp)"
       g.message "Ver.1.3aS program bug fix/separate (by brx@kmc.kyoto-u.ac.jp)"
       g.message("Porting to Vim plugin: Ver." .. g.version .. " (by katono)")
-      g.message(g.mesg[1]) -- for message version
+      g.message(mesg[1]) -- for message version
     elseif ch == "Q" then
       g.quit(false)
     elseif

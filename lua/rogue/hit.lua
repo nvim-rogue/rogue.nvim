@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -44,7 +45,7 @@ function g.mon_hit(monster, other, flame)
   if not random.rand_percent(hit_chance) then
     if not fight_monster then
       g.hit_message = g.hit_message
-        .. string.format(g.mesg[18], (other and other or mn))
+        .. string.format(mesg[18], (other and other or mn))
       g.message(g.hit_message, true)
       g.hit_message = ""
     end
@@ -52,10 +53,9 @@ function g.mon_hit(monster, other, flame)
   end
   if not fight_monster then
     if other then
-      g.hit_message = g.hit_message
-        .. string.format(g.mesg[19], other, g.mesg[20])
+      g.hit_message = g.hit_message .. string.format(mesg[19], other, mesg[20])
     else
-      g.hit_message = g.hit_message .. string.format(g.mesg[19], mn, g.mesg[21])
+      g.hit_message = g.hit_message .. string.format(mesg[19], mn, mesg[21])
     end
     g.message(g.hit_message, true)
     g.hit_message = ""
@@ -107,7 +107,7 @@ function g.rogue_hit(monster, force_hit)
   end
   if not random.rand_percent(hit_chance) then
     if not fight_monster then
-      g.hit_message = string.format(g.mesg[22], g.nick_name)
+      g.hit_message = string.format(mesg[22], g.nick_name)
     end
     -- goto RET
     g.check_gold_seeker(monster)
@@ -120,7 +120,7 @@ function g.rogue_hit(monster, force_hit)
   end
   if g.mon_damage(monster, damage) then -- still alive?
     if not fight_monster then
-      g.hit_message = string.format(g.mesg[23], g.nick_name)
+      g.hit_message = string.format(mesg[23], g.nick_name)
     end
   end
   -- ::RET::
@@ -207,7 +207,7 @@ function g.mon_damage(monster, damage)
   fight_monster = nil
   g.cough_up(monster)
   local mn = g.mon_name(monster)
-  g.hit_message = g.hit_message .. string.format(g.mesg[24], mn)
+  g.hit_message = g.hit_message .. string.format(mesg[24], mn)
   g.message(g.hit_message, true)
   g.hit_message = ""
   g.add_exp(monster.kill_exp, true)
@@ -234,7 +234,7 @@ function g.fight(to_the_death)
     not c:find "^[A-Z]$"
     or not g.can_move(g.rogue.row, g.rogue.col, row, col)
   then
-    g.message(g.mesg[25])
+    g.message(mesg[25])
     return
   end
   fight_monster = g.object_at(g.level_monsters, row, col)

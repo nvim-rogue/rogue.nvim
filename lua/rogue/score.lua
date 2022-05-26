@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local util = require "rogue.util"
 
 local score_file = "rogue_vim.scores"
@@ -83,8 +84,8 @@ function g.killed_by(monster, other)
   }
   local os1
   local os2
-  os1 = { [0] = "", g.mesg[168], g.mesg[169], g.mesg[170], g.mesg[171] }
-  os2 = { [0] = "", g.mesg[172], g.mesg[173], g.mesg[174], g.mesg[175] }
+  os1 = { [0] = "", mesg[168], mesg[169], mesg[170], mesg[171] }
+  os2 = { [0] = "", mesg[172], mesg[173], mesg[174], mesg[175] }
 
   if other ~= g.QUIT then
     g.rogue.gold = util.int_div((g.rogue.gold * 9), 10)
@@ -94,13 +95,13 @@ function g.killed_by(monster, other)
     buf = os1[other]
     buf2 = os2[other]
   else
-    if g.JAPAN then
+    if mesg.JAPAN then
       buf = monster.m_name
-      buf2 = g.mesg[176]
+      buf2 = mesg[176]
     else
-      buf = g.mesg[176]
+      buf = mesg[176]
       buf2 = monster.m_name
-      if g.English and is_vowel(buf2) then
+      if mesg.English and is_vowel(buf2) then
         -- "an" of vowel
         buf = buf .. "n"
       end
@@ -109,23 +110,23 @@ function g.killed_by(monster, other)
   if g.show_skull and other ~= g.QUIT then
     g.clear()
     local inscribed_words
-    if g.JAPAN then
+    if mesg.JAPAN then
       inscribed_words = {
-        [4] = "(y(" .. g.mesg[177] .. "(y(",
-        [5] = "(y(" .. g.mesg[178] .. "(y(",
+        [4] = "(y(" .. mesg[177] .. "(y(",
+        [5] = "(y(" .. mesg[178] .. "(y(",
         [7] = g.nick_name,
-        [8] = g.mesg[180] .. g.znum(g.rogue.gold),
+        [8] = mesg[180] .. g.znum(g.rogue.gold),
         [10] = buf,
         [11] = buf2,
         [12] = g.znum(tonumber(os.date "%Y")),
       }
     else
       inscribed_words = {
-        [4] = "(y(" .. g.mesg[177] .. "(y(",
-        [5] = "(y(" .. g.mesg[178] .. "(y(",
-        [6] = "(y(" .. g.mesg[179] .. "(y(",
+        [4] = "(y(" .. mesg[177] .. "(y(",
+        [5] = "(y(" .. mesg[178] .. "(y(",
+        [6] = "(y(" .. mesg[179] .. "(y(",
         [8] = g.nick_name,
-        [9] = string.format(g.mesg[180]:gsub("%%ld", "%%d"), g.rogue.gold),
+        [9] = string.format(mesg[180]:gsub("%%ld", "%%d"), g.rogue.gold),
         [10] = buf,
         [11] = buf2,
         [12] = os.date "%Y",
@@ -139,16 +140,16 @@ function g.killed_by(monster, other)
     g.check_message()
     g.message ""
   else
-    if g.JAPAN then
+    if mesg.JAPAN then
       buf = buf .. buf2
-      buf = buf .. g.mesg[181]
+      buf = buf .. mesg[181]
       buf = buf .. g.znum(g.rogue.gold)
-      buf = buf .. g.mesg[496]
+      buf = buf .. mesg[496]
     else
       if buf2 ~= "" then
         buf = buf .. " " .. buf2
       end
-      buf = buf .. string.format(g.mesg[181]:gsub("%%ld", "%%d"), g.rogue.gold)
+      buf = buf .. string.format(mesg[181]:gsub("%%ld", "%%d"), g.rogue.gold)
     end
     g.message(buf)
   end
@@ -220,7 +221,7 @@ local function sell_pack()
   local row = 2
   local obj = g.rogue.pack.next_object
   g.clear()
-  g.mvaddstr(1, 0, g.mesg[198])
+  g.mvaddstr(1, 0, mesg[198])
 
   while obj do
     if obj.what_is ~= g.FOOD then
@@ -265,10 +266,10 @@ function g.win()
   for i = 1, 7 do
     mvaddbanner(i + 5, g.DCOLS / 2 - 30, ban[i])
   end
-  center(15, "(y(" .. g.mesg[182] .. "(y(")
-  center(16, "(y(" .. g.mesg[183] .. "(y(")
-  center(17, "(y(" .. g.mesg[184] .. "(y(")
-  center(18, "(y(" .. g.mesg[185] .. "(y(")
+  center(15, "(y(" .. mesg[182] .. "(y(")
+  center(16, "(y(" .. mesg[183] .. "(y(")
+  center(17, "(y(" .. mesg[184] .. "(y(")
+  center(18, "(y(" .. mesg[185] .. "(y(")
 
   g.message ""
   g.message ""
@@ -279,14 +280,14 @@ end
 
 function g.quit(from_intrpt)
   g.check_message()
-  g.message(g.mesg[495], true)
+  g.message(mesg[495], true)
   if g.rgetchar() ~= "y" then
     g.check_message()
     return
   end
   g.check_message()
   if from_intrpt then
-    g.message(g.mesg[12], true)
+    g.message(mesg[12], true)
   end
   g.killed_by(nil, g.QUIT)
   -- NOTREACHED
@@ -294,24 +295,24 @@ end
 
 local function sf_error()
   g.message("", true)
-  g.message(g.mesg[199])
+  g.message(mesg[199])
 end
 
 local function score_line(monster, other)
   local buf = string.format("   %6d   %s: ", g.rogue.gold, g.nick_name)
-  if g.JAPAN then
+  if mesg.JAPAN then
     if other ~= g.WIN then
       if g.has_amulet() then
-        buf = buf .. g.mesg[189]
+        buf = buf .. mesg[189]
       end
-      buf = buf .. g.mesg[190] .. g.znum(g.cur_level) .. g.mesg[191]
+      buf = buf .. mesg[190] .. g.znum(g.cur_level) .. mesg[191]
     end
   end
   if monster then
-    if g.JAPAN then
-      buf = buf .. monster.m_name .. g.mesg[197]
+    if mesg.JAPAN then
+      buf = buf .. monster.m_name .. mesg[197]
     else
-      buf = buf .. g.mesg[197]
+      buf = buf .. mesg[197]
       if is_vowel(monster.m_name) then
         buf = buf .. "an " .. monster.m_name
       else
@@ -319,22 +320,22 @@ local function score_line(monster, other)
       end
     end
   elseif other == g.HYPOTHERMIA then
-    buf = buf .. g.mesg[192]
+    buf = buf .. mesg[192]
   elseif other == g.STARVATION then
-    buf = buf .. g.mesg[193]
+    buf = buf .. mesg[193]
   elseif other == g.POISON_DART then
-    buf = buf .. g.mesg[194]
+    buf = buf .. mesg[194]
   elseif other == g.QUIT then
-    buf = buf .. g.mesg[195]
+    buf = buf .. mesg[195]
   elseif other == g.WIN then
-    buf = buf .. g.mesg[196]
+    buf = buf .. mesg[196]
   end
-  if g.JAPAN then
-    buf = buf .. g.mesg[496]
+  if mesg.JAPAN then
+    buf = buf .. mesg[496]
   else
-    buf = buf .. string.format(g.mesg[190], g.cur_level)
+    buf = buf .. string.format(mesg[190], g.cur_level)
     if other ~= g.WIN and g.has_amulet() then
-      buf = buf .. g.mesg[189]
+      buf = buf .. mesg[189]
     end
   end
   buf = buf .. string.rep(" ", g.DCOLS - 4 - util.strwidth(buf))
@@ -352,7 +353,7 @@ function g.put_scores(monster, other)
     vim.cmd 'let &encoding = "utf-8"'
     buf = g.iconv_from_utf8(buf)
     vim.cmd "let &encoding = s:save_encoding"
-    scores = assert(util.loadstring("return " .. buf), g.mesg[199])()
+    scores = assert(util.loadstring("return " .. buf), mesg[199])()
     fp:close()
   end
 
@@ -372,7 +373,7 @@ function g.put_scores(monster, other)
   if rank <= MAX_RANK then
     fp = io.open(file, "wb")
     if not fp then
-      g.message(g.mesg[186])
+      g.message(mesg[186])
       sf_error()
       g.exit()
     end
@@ -393,8 +394,8 @@ function g.put_scores(monster, other)
   end
 
   g.clear()
-  g.mvaddstr(3, (g.JAPAN and 20 or 25), "(y(" .. g.mesg[187] .. "(y(")
-  g.mvaddstr(6, 0, "(g(" .. g.mesg[188] .. "(g(")
+  g.mvaddstr(3, (mesg.JAPAN and 20 or 25), "(y(" .. mesg[187] .. "(y(")
+  g.mvaddstr(6, 0, "(g(" .. mesg[188] .. "(g(")
 
   for i = 1, #scores do
     local c = ""

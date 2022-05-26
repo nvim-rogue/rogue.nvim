@@ -1,4 +1,5 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 local random = require "rogue.random"
 local util = require "rogue.util"
 
@@ -7,7 +8,7 @@ local flame_name
 g.being_held = false
 
 function g.init_spechit()
-  flame_name = g.mesg[200]
+  flame_name = mesg[200]
 end
 
 local function freeze(monster)
@@ -23,7 +24,7 @@ local function freeze(monster)
 
   if freeze_percent > 10 then
     monster.m_flags[g.FREEZING_ROGUE] = g.m_flags_desc[g.FREEZING_ROGUE]
-    g.message(g.mesg[203], true)
+    g.message(mesg[203], true)
     local n = random.get_rand(4, 8)
     for i = 1, n do
       g.mv_mons()
@@ -62,7 +63,7 @@ local function steal_gold(monster)
     amount = g.rogue.gold
   end
   g.rogue.gold = g.rogue.gold - amount
-  g.message(g.mesg[204])
+  g.message(mesg[204])
   g.print_stats()
   disappear(monster)
 end
@@ -123,16 +124,16 @@ local function steal_item(monster)
   end
   -- ::adornment::
   local desc = ""
-  if not g.JAPAN then
-    desc = g.mesg[205]
+  if not mesg.JAPAN then
+    desc = mesg[205]
   end
   local t = 0
   if obj.what_is ~= g.WEAPON then
     t = obj.quantity
     obj.quantity = 1
   end
-  if g.JAPAN then
-    desc = g.get_desc(obj, false) .. g.mesg[205]
+  if mesg.JAPAN then
+    desc = g.get_desc(obj, false) .. mesg[205]
   else
     desc = desc .. g.get_desc(obj, false)
   end
@@ -153,7 +154,7 @@ local function sting(monster)
     sting_chance = sting_chance - (6 * ((g.rogue.exp + g.ring_exp) - 8))
   end
   if random.rand_percent(sting_chance) then
-    g.message(string.format(g.mesg[207], g.mon_name(monster)))
+    g.message(string.format(mesg[207], g.mon_name(monster)))
     g.rogue.str_current = g.rogue.str_current - 1
     g.print_stats()
   end
@@ -187,7 +188,7 @@ local function drain_life()
   end
   local n = random.get_rand(1, 3) -- 1 Hp, 2 Str, 3 both
   if n ~= 2 or not g.sustain_strength then
-    g.message(g.mesg[208])
+    g.message(mesg[208])
   end
   if n ~= 2 then
     g.rogue.hp_max = g.rogue.hp_max - 1
@@ -244,12 +245,12 @@ function g.rust(monster)
   end
   if g.rogue.armor.is_protected or g.maintain_armor then
     if monster and not monster.m_flags[g.RUST_VANISHED] then
-      g.message(g.mesg[201])
+      g.message(mesg[201])
       monster.m_flags[g.RUST_VANISHED] = g.m_flags_desc[g.RUST_VANISHED]
     end
   else
     g.rogue.armor.d_enchant = g.rogue.armor.d_enchant - 1
-    g.message(g.mesg[202])
+    g.message(mesg[202])
     g.print_stats()
   end
 end
@@ -375,7 +376,7 @@ function g.check_imitator(monster)
         g.get_dungeon_char(monster.row, monster.col)
       )
       g.check_message()
-      g.message(string.format(g.mesg[206], g.mon_name(monster)))
+      g.message(string.format(mesg[206], g.mon_name(monster)))
     end
     return true
   end
@@ -404,7 +405,7 @@ function g.m_confuse(monster)
   end
   if random.rand_percent(55) then
     monster.m_flags[g.CONFUSES] = nil
-    g.message(string.format(g.mesg[209], g.mon_name(monster)))
+    g.message(string.format(mesg[209], g.mon_name(monster)))
     g.confuse()
     return true
   end
@@ -426,7 +427,9 @@ local function get_closer(row, col, trow, tcol)
 end
 
 function g.flame_broil(monster)
-  if not g.mon_sees(monster, g.rogue.row, g.rogue.col) or random.coin_toss() then
+  if
+    not g.mon_sees(monster, g.rogue.row, g.rogue.col) or random.coin_toss()
+  then
     return false
   end
   local row = g.rogue.row - monster.row

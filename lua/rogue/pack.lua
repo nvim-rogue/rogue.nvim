@@ -1,9 +1,10 @@
 local g = Rogue -- alias
+local mesg = require "rogue.mesg"
 
 g.curse_message = ""
 
 function g.init_pack()
-  g.curse_message = g.mesg[85]
+  g.curse_message = mesg[85]
 end
 
 local function check_duplicate(obj, pack)
@@ -103,7 +104,7 @@ function g.pack_letter(prompt, mask)
   local tmask = mask
 
   if not mask_pack(g.rogue.pack, mask) then
-    g.message(g.mesg[93])
+    g.message(mesg[93])
     return g.CANCEL
   end
   local ch
@@ -176,7 +177,7 @@ function g.pick_up(row, col)
     and obj.which_kind == g.SCARE_MONSTER
     and obj.picked_up
   then
-    g.message(g.mesg[86])
+    g.message(mesg[86])
     g.dungeon[row][col][g.OBJECT] = nil
     g.vanish(obj, false, g.level_objects)
     status = false
@@ -193,7 +194,7 @@ function g.pick_up(row, col)
     return obj, status -- obj will be free_object()ed in one_move_rogue()
   end
   if g.pack_count(obj) >= g.MAX_PACK_COUNT then
-    g.message(g.mesg[87], true)
+    g.message(mesg[87], true)
     return nil, status
   end
   g.dungeon[row][col][g.OBJECT] = nil
@@ -209,20 +210,20 @@ function g.drop()
     or g.dungeon[g.rogue.row][g.rogue.col][g.STAIRS]
     or g.dungeon[g.rogue.row][g.rogue.col][g.TRAP]
   then
-    g.message(g.mesg[88])
+    g.message(mesg[88])
     return
   end
   if not g.rogue.pack.next_object then
-    g.message(g.mesg[89])
+    g.message(mesg[89])
     return
   end
-  local ch = g.pack_letter(g.mesg[90], g.ALL_OBJECTS)
+  local ch = g.pack_letter(mesg[90], g.ALL_OBJECTS)
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[91])
+    g.message(mesg[91])
     return
   end
   if obj.in_use_flags == g.BEING_WIELDED then
@@ -260,10 +261,10 @@ function g.drop()
     g.take_from_pack(obj, g.rogue.pack)
   end
   g.place_at(obj, g.rogue.row, g.rogue.col)
-  if g.JAPAN then
-    g.message(g.get_desc(obj) .. g.mesg[92])
+  if mesg.JAPAN then
+    g.message(g.get_desc(obj) .. mesg[92])
   else
-    g.message(g.mesg[92] .. g.get_desc(obj))
+    g.message(mesg[92] .. g.get_desc(obj))
   end
   g.reg_move()
 end
@@ -276,43 +277,43 @@ function g.take_off()
       g.mv_aquatars()
       local obj = g.rogue.armor
       g.unwear(obj)
-      if g.JAPAN then
-        g.message(g.get_desc(obj) .. g.mesg[94])
+      if mesg.JAPAN then
+        g.message(g.get_desc(obj) .. mesg[94])
       else
-        g.message(g.mesg[94] .. g.get_desc(obj))
+        g.message(mesg[94] .. g.get_desc(obj))
       end
       g.print_stats()
       g.reg_move()
     end
   else
-    g.message(g.mesg[95])
+    g.message(mesg[95])
   end
 end
 
 function g.wear()
   if g.rogue.armor then
-    g.message(g.mesg[96])
+    g.message(mesg[96])
     return
   end
-  local ch = g.pack_letter(g.mesg[97], g.ARMOR)
+  local ch = g.pack_letter(mesg[97], g.ARMOR)
 
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[98])
+    g.message(mesg[98])
     return
   end
   if obj.what_is ~= g.ARMOR then
-    g.message(g.mesg[99])
+    g.message(mesg[99])
     return
   end
   obj.identified = true
-  if g.JAPAN then
-    g.message(g.get_desc(obj) .. g.mesg[100])
+  if mesg.JAPAN then
+    g.message(g.get_desc(obj) .. mesg[100])
   else
-    g.message(g.mesg[100] .. g.get_desc(obj))
+    g.message(mesg[100] .. g.get_desc(obj))
   end
   g.do_wear(obj)
   g.print_stats()
@@ -337,32 +338,32 @@ function g.wield()
     g.message(g.curse_message)
     return
   end
-  local ch = g.pack_letter(g.mesg[101], g.WEAPON)
+  local ch = g.pack_letter(mesg[101], g.WEAPON)
 
   if ch == g.CANCEL then
     return
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[102])
+    g.message(mesg[102])
     return
   end
   if obj.what_is == g.ARMOR then
-    g.message(string.format(g.mesg[103], g.mesg[104]))
+    g.message(string.format(mesg[103], mesg[104]))
     return
   elseif obj.what_is == g.RING then
-    g.message(string.format(g.mesg[103], g.mesg[105]))
+    g.message(string.format(mesg[103], mesg[105]))
     return
   end
 
   if obj.in_use_flags == g.BEING_WIELDED then
-    g.message(g.mesg[106])
+    g.message(mesg[106])
   else
     g.unwield(g.rogue.weapon)
-    if g.JAPAN then
-      g.message(g.get_desc(obj) .. g.mesg[107])
+    if mesg.JAPAN then
+      g.message(g.get_desc(obj) .. mesg[107])
     else
-      g.message(g.mesg[107] .. g.get_desc(obj))
+      g.message(mesg[107] .. g.get_desc(obj))
     end
     g.do_wield(obj)
     g.reg_move()
@@ -383,7 +384,7 @@ end
 
 function g.call_it()
   local ch = g.pack_letter(
-    g.mesg[108],
+    mesg[108],
     { [g.SCROL] = true, [g.POTION] = true, [g.WAND] = true, [g.RING] = true }
   )
   if ch == g.CANCEL then
@@ -391,7 +392,7 @@ function g.call_it()
   end
   local obj = g.get_letter_object(ch)
   if not obj then
-    g.message(g.mesg[109])
+    g.message(mesg[109])
     return
   end
   if
@@ -402,14 +403,14 @@ function g.call_it()
       or obj.what_is == g.RING
     )
   then
-    g.message(g.mesg[110])
+    g.message(mesg[110])
     return
   end
   local id_table = g.get_id_table(obj)
   local buf
-  if g.JAPAN then
+  if mesg.JAPAN then
     buf = g.get_input_line(
-      g.mesg[111],
+      mesg[111],
       "",
       id_table[obj.which_kind].title,
       false,
@@ -424,7 +425,7 @@ function g.call_it()
     end
   else
     buf = g.get_input_line(
-      g.mesg[111],
+      mesg[111],
       "",
       id_table[obj.which_kind].title,
       true,
@@ -465,17 +466,17 @@ end
 
 function g.kick_into_pack()
   if not g.dungeon[g.rogue.row][g.rogue.col][g.OBJECT] then
-    g.message(g.mesg[112])
+    g.message(mesg[112])
   else
     if g.levitate > 0 then
-      g.message(g.mesg[113])
+      g.message(mesg[113])
       return
     end
     local obj, stat = g.pick_up(g.rogue.row, g.rogue.col)
     if obj then
       local desc = g.get_desc(obj, true)
-      if g.JAPAN then
-        desc = desc .. g.mesg[114]
+      if mesg.JAPAN then
+        desc = desc .. mesg[114]
       end
       if obj.what_is == g.GOLD then
         g.message(desc)
